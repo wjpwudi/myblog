@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="清风煮酒">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://yonina.space/2023/08/24/数据访问/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="1、SQL1、数据源的自动配置-HikariDataSource1、导入JDBC场景12345&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;spring-boot-starter-data-jdbc&lt;&#x2F;artifactId&gt;&lt;&#x2F;d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据访问">
+<meta property="og:url" content="http://yonina.space/2023/08/24/%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1、SQL1、数据源的自动配置-HikariDataSource1、导入JDBC场景12345&lt;dependency&gt;    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;spring-boot-starter-data-jdbc&lt;&#x2F;artifactId&gt;&lt;&#x2F;d">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/1354552/1606366100317-5e0199fa-6709-4d32-bce3-bb262e2e5e6a.png?x-oss-process=image/watermark,type_d3F5LW1pY3JvaGVp,size_20,text_YXRndWlndS5jb20g5bCa56GF6LC3,color_FFFFFF,shadow_50,t_80,g_se,x_10,y_10#averageHue=%23faf8f7&height=306&id=LuYYW&originHeight=306&originWidth=703&originalType=binary&ratio=1&rotation=0&showTitle=false&size=33836&status=done&style=none&title=&width=703">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/1354552/1606704096118-53001250-a04a-4210-80ee-6de6a370be2e.png?x-oss-process=image/watermark,type_d3F5LW1pY3JvaGVp,size_20,text_YXRndWlndS5jb20g5bCa56GF6LC3,color_FFFFFF,shadow_50,t_80,g_se,x_10,y_10#averageHue=%23e4b776&height=174&id=avW0z&originHeight=174&originWidth=699&originalType=binary&ratio=1&rotation=0&showTitle=false&size=17408&status=done&style=none&title=&width=699">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/1354552/1606745732785-17d1227a-75b9-4f00-a3f1-7fc4137b5113.png?x-oss-process=image/watermark,type_d3F5LW1pY3JvaGVp,size_17,text_YXRndWlndS5jb20g5bCa56GF6LC3,color_FFFFFF,shadow_50,t_80,g_se,x_10,y_10#averageHue=%23f8f6f4&height=428&id=Jryxl&originHeight=428&originWidth=590&originalType=binary&ratio=1&rotation=0&showTitle=false&size=37764&status=done&style=none&title=&width=590">
+<meta property="article:published_time" content="2023-08-24T09:06:52.402Z">
+<meta property="article:modified_time" content="2023-08-24T09:04:31.250Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="数据访问">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/1354552/1606366100317-5e0199fa-6709-4d32-bce3-bb262e2e5e6a.png?x-oss-process=image/watermark,type_d3F5LW1pY3JvaGVp,size_20,text_YXRndWlndS5jb20g5bCa56GF6LC3,color_FFFFFF,shadow_50,t_80,g_se,x_10,y_10#averageHue=%23faf8f7&height=306&id=LuYYW&originHeight=306&originWidth=703&originalType=binary&ratio=1&rotation=0&showTitle=false&size=33836&status=done&style=none&title=&width=703">
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/lm.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/lm.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/lm.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            数据访问 -
+        
+        清风煮酒
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/assets/fonts.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"yonina.space","root":"/","language":"en"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[""]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true},"home_banner":{"enable":true,"image":{"light":"https://i.hd-r.cn/18a445cb91f22f6086a9393f719fba17.jpg","dark":"https://i.hd-r.cn/18a445cb91f22f6086a9393f719fba17.jpg"},"title":"welcome to 子羽 and Yonina's Family","subtitle":{"text":["我坚信，失败后的第一个黎明，就是争取胜利的新开始.","忘掉失败，不过要牢记失败中的教训.","我怕输，所以我从不敢放弃.","奋斗吧，改变不了起点但可以改变终点.","不是井里没有水，而是挖的不够深。不是成功来得慢，而是努力的不够狠.","不管梦想是什么，只有带着淡然的态度，做好当前的事情，才能如愿以偿.","抬头与低头，是人生的两种姿态。抬头需要底气，低头需要勇气","当你感觉到难的时候，就是你在进步的时候；机械、重复的工作是最低效的成长；而逼自己去做难的事，你没干过的事，就能大大提升你的潜力","人的一生不可能一帆风顺,而正是由于有了一些困难和挫折,我们的人 生才会有意义"],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"links":{"github":"https://github.com/wjpwudi/blog","instagram":null,"zhihu":null,"twitter":null,"email":"2806109090@qq.com# your email","YUQUE":"https://www.yuque.com/wangjinpeng-jlws0/dyk7c7"}},"style":"static"},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.1.2","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":30},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"分类":{"path":"/categories/","icon":"fa-solid fa-robot"},"标签":{"path":"/tags/","icon":"fa-duotone fa-book"},"友链":{"path":"/links/","icon":"fa-solid fa-link"},"关于":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/wjpwudi/blog","Gitee":"https://gitee.com/wjpwudi/myblog","Yuque":"https://www.yuque.com/wangjinpeng-jlws0/dyk7c7"}}},"search":{"enable":false,"preload":true},"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}}};
+    Global.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                清风煮酒
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/categories/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-robot"></i>
+                                        
+                                        分类
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/tags/"  >
+                                    
+                                        
+                                            <i class="fa-duotone fa-book"></i>
+                                        
+                                        标签
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/links/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-link"></i>
+                                        
+                                        友链
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        关于&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/wjpwudi/blog">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://gitee.com/wjpwudi/myblog">GITEE
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://www.yuque.com/wangjinpeng-jlws0/dyk7c7">YUQUE
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/categories/"  >
+                             
+                                
+                                    <i class="fa-solid fa-robot"></i>
+                                
+                                分类
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/tags/"  >
+                             
+                                
+                                    <i class="fa-duotone fa-book"></i>
+                                
+                                标签
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/links/"  >
+                             
+                                
+                                    <i class="fa-solid fa-link"></i>
+                                
+                                友链
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                关于&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/wjpwudi/blog">GITHUB</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://gitee.com/wjpwudi/myblog">GITEE</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://www.yuque.com/wangjinpeng-jlws0/dyk7c7">YUQUE</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">数据访问</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="https://img2.baidu.com/it/u=3556369831,3766649660&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=499">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">清风煮酒</span>
+                            
+                                <span class="author-label"></span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-08-24 17:06:52</span>
+        <span class="mobile">2023-08-24 17:06</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-08-24 17:04:31</span>
+            <span class="mobile">2023-08-24 17:04</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/SpringBoot/">SpringBoot</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE/">数据访问</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <h1 id="1、SQL"><a href="#1、SQL" class="headerlink" title="1、SQL"></a>1、SQL</h1><h2 id="1、数据源的自动配置-HikariDataSource"><a href="#1、数据源的自动配置-HikariDataSource" class="headerlink" title="1、数据源的自动配置-HikariDataSource"></a>1、数据源的自动配置-<strong>HikariDataSource</strong></h2><h3 id="1、导入JDBC场景"><a href="#1、导入JDBC场景" class="headerlink" title="1、导入JDBC场景"></a>1、导入JDBC场景</h3><div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-jdbc<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+<h3 id=""><a href="#" class="headerlink" title=""></a><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2020/png/1354552/1606366100317-5e0199fa-6709-4d32-bce3-bb262e2e5e6a.png?x-oss-process=image/watermark,type_d3F5LW1pY3JvaGVp,size_20,text_YXRndWlndS5jb20g5bCa56GF6LC3,color_FFFFFF,shadow_50,t_80,g_se,x_10,y_10#averageHue=%23faf8f7&height=306&id=LuYYW&originHeight=306&originWidth=703&originalType=binary&ratio=1&rotation=0&showTitle=false&size=33836&status=done&style=none&title=&width=703"
+                      alt="image.png"
+                ></h3><p>数据库驱动？<br>为什么导入JDBC场景，官方不导入驱动？官方不知道我们接下要操作什么数据库。<br>数据库版本和驱动版本对应</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">默认版本：<span class="tag">&lt;<span class="name">mysql.version</span>&gt;</span>8.0.22<span class="tag">&lt;/<span class="name">mysql.version</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--            &lt;version&gt;5.1.49&lt;/version&gt;--&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">想要修改版本</span><br><span class="line">1、直接依赖引入具体版本（maven的就近依赖原则）</span><br><span class="line">2、重新声明版本（maven的属性的就近优先原则）</span><br><span class="line">    <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mysql.version</span>&gt;</span>5.1.49<span class="tag">&lt;/<span class="name">mysql.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+
+<h3 id="2、分析自动配置"><a href="#2、分析自动配置" class="headerlink" title="2、分析自动配置"></a>2、分析自动配置</h3><h4 id="1、自动配置的类"><a href="#1、自动配置的类" class="headerlink" title="1、自动配置的类"></a>1、自动配置的类</h4><ul>
+<li><p>DataSourceAutoConfiguration ： 数据源的自动配置</p>
+<ul>
+<li>修改数据源相关的配置：<strong>spring.datasource</strong></li>
+<li><strong>数据库连接池的配置，是自己容器中没有DataSource才自动配置的</strong></li>
+<li>底层配置好的连接池是：<strong>HikariDataSource</strong><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration(proxyBeanMethods = false)</span></span><br><span class="line"><span class="meta">@Conditional(PooledDataSourceCondition.class)</span></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean(&#123; DataSource.class, XADataSource.class &#125;)</span></span><br><span class="line"><span class="meta">@Import(&#123; DataSourceConfiguration.Hikari.class, DataSourceConfiguration.Tomcat.class,</span></span><br><span class="line"><span class="meta">		DataSourceConfiguration.Dbcp2.class, DataSourceConfiguration.OracleUcp.class,</span></span><br><span class="line"><span class="meta">		DataSourceConfiguration.Generic.class, DataSourceJmxConfiguration.class &#125;)</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">PooledDataSourceConfiguration</span></span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+<li><p>DataSourceTransactionManagerAutoConfiguration： 事务管理器的自动配置</p>
+</li>
+<li><p>JdbcTemplateAutoConfiguration： <strong>JdbcTemplate的自动配置，可以来对数据库进行crud</strong></p>
+<ul>
+<li>可以修改这个配置项@ConfigurationProperties(prefix &#x3D; <strong>“spring.jdbc”</strong>) 来修改JdbcTemplate</li>
+<li>@Bean@Primary    JdbcTemplate；容器中有这个组件</li>
+</ul>
+</li>
+<li><p>JndiDataSourceAutoConfiguration： jndi的自动配置</p>
+</li>
+<li><p>XADataSourceAutoConfiguration： 分布式事务相关的</p>
+</li>
+</ul>
+<h3 id="3、修改配置项"><a href="#3、修改配置项" class="headerlink" title="3、修改配置项"></a>3、修改配置项</h3><div class="highlight-container" data-rel="Yaml"><figure class="iseeu highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/db_account</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">123456</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br></pre></td></tr></table></figure></div>
+
+
+<h3 id="4、测试"><a href="#4、测试" class="headerlink" title="4、测试"></a>4、测试</h3><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Boot05WebAdminApplicationTests</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    JdbcTemplate jdbcTemplate;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">contextLoads</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">//        jdbcTemplate.queryForObject(&quot;select * from account_tbl&quot;)</span></span><br><span class="line"><span class="comment">//        jdbcTemplate.queryForList(&quot;select * from account_tbl&quot;,)</span></span><br><span class="line">        <span class="type">Long</span> <span class="variable">aLong</span> <span class="operator">=</span> jdbcTemplate.queryForObject(<span class="string">&quot;select count(*) from account_tbl&quot;</span>, Long.class);</span><br><span class="line">        log.info(<span class="string">&quot;记录总数：&#123;&#125;&quot;</span>,aLong);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<h2 id="2、使用Druid数据源"><a href="#2、使用Druid数据源" class="headerlink" title="2、使用Druid数据源"></a>2、使用Druid数据源</h2><h3 id="1、druid官方github地址"><a href="#1、druid官方github地址" class="headerlink" title="1、druid官方github地址"></a>1、druid官方github地址</h3><p><a class="link"   target="_blank" rel="noopener" href="https://github.com/alibaba/druid" >https://github.com/alibaba/druid <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>整合第三方技术的两种方式</p>
+<ul>
+<li>自定义</li>
+<li>找starter</li>
+</ul>
+<h3 id="2、自定义方式"><a href="#2、自定义方式" class="headerlink" title="2、自定义方式"></a>2、自定义方式</h3><h4 id="1、创建数据源"><a href="#1、创建数据源" class="headerlink" title="1、创建数据源"></a>1、创建数据源</h4><div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.alibaba.druid.pool.DruidDataSource&quot;</span></span></span><br><span class="line"><span class="tag">		<span class="attr">destroy-method</span>=<span class="string">&quot;close&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;url&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.url&#125;&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.username&#125;&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;$&#123;jdbc.password&#125;&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxActive&quot;</span> <span class="attr">value</span>=<span class="string">&quot;20&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;initialSize&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxWait&quot;</span> <span class="attr">value</span>=<span class="string">&quot;60000&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;minIdle&quot;</span> <span class="attr">value</span>=<span class="string">&quot;1&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;timeBetweenEvictionRunsMillis&quot;</span> <span class="attr">value</span>=<span class="string">&quot;60000&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;minEvictableIdleTimeMillis&quot;</span> <span class="attr">value</span>=<span class="string">&quot;300000&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;testWhileIdle&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;testOnBorrow&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;testOnReturn&quot;</span> <span class="attr">value</span>=<span class="string">&quot;false&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;poolPreparedStatements&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxOpenPreparedStatements&quot;</span> <span class="attr">value</span>=<span class="string">&quot;20&quot;</span> /&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+
+<h4 id="2、StatViewServlet"><a href="#2、StatViewServlet" class="headerlink" title="2、StatViewServlet"></a>2、StatViewServlet</h4><blockquote>
+<p>StatViewServlet的用途包括：</p>
+<ul>
+<li>提供监控信息展示的html页面</li>
+<li>提供监控信息的JSON API</li>
+</ul>
+</blockquote>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>DruidStatView<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>com.alibaba.druid.support.http.StatViewServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>DruidStatView<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/druid/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h4 id="3、StatFilter"><a href="#3、StatFilter" class="headerlink" title="3、StatFilter"></a>3、StatFilter</h4><blockquote>
+<p>用于统计监控信息；如SQL监控、URI监控</p>
+</blockquote>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">需要给数据源中配置如下属性；可以允许多个filter，多个用，分割；如：</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;filters&quot;</span> <span class="attr">value</span>=<span class="string">&quot;stat,slf4j&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure></div>
+<p>系统中所有filter：</p>
+<table>
+<thead>
+<tr>
+<th>别名</th>
+<th>Filter类名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>default</td>
+<td>com.alibaba.druid.filter.stat.StatFilter</td>
+</tr>
+<tr>
+<td>stat</td>
+<td>com.alibaba.druid.filter.stat.StatFilter</td>
+</tr>
+<tr>
+<td>mergeStat</td>
+<td>com.alibaba.druid.filter.stat.MergeStatFilter</td>
+</tr>
+<tr>
+<td>encoding</td>
+<td>com.alibaba.druid.filter.encoding.EncodingConvertFilter</td>
+</tr>
+<tr>
+<td>log4j</td>
+<td>com.alibaba.druid.filter.logging.Log4jFilter</td>
+</tr>
+<tr>
+<td>log4j2</td>
+<td>com.alibaba.druid.filter.logging.Log4j2Filter</td>
+</tr>
+<tr>
+<td>slf4j</td>
+<td>com.alibaba.druid.filter.logging.Slf4jLogFilter</td>
+</tr>
+<tr>
+<td>commonlogging</td>
+<td>com.alibaba.druid.filter.logging.CommonsLogFilter</td>
+</tr>
+</tbody></table>
+<p><strong>慢SQL记录配置</strong></p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;stat-filter&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.alibaba.druid.filter.stat.StatFilter&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;slowSqlMillis&quot;</span> <span class="attr">value</span>=<span class="string">&quot;10000&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;logSlowSql&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">使用 slowSqlMillis 定义慢SQL的时长</span><br></pre></td></tr></table></figure></div>
+<h3 id="3、使用官方starter方式"><a href="#3、使用官方starter方式" class="headerlink" title="3、使用官方starter方式"></a>3、使用官方starter方式</h3><h4 id="1、引入druid-starter"><a href="#1、引入druid-starter" class="headerlink" title="1、引入druid-starter"></a>1、引入druid-starter</h4><div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>druid-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.17<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h4 id="2、分析自动配置-1"><a href="#2、分析自动配置-1" class="headerlink" title="2、分析自动配置"></a>2、分析自动配置</h4><ul>
+<li>扩展配置项 <strong>spring.datasource.druid</strong></li>
+<li>DruidSpringAopConfiguration.<strong>class</strong>,   监控SpringBean的；配置项：<strong>spring.datasource.druid.aop-patterns</strong></li>
+<li>DruidStatViewServletConfiguration.<strong>class</strong>, 监控页的配置：<strong>spring.datasource.druid.stat-view-servlet；默认开启</strong></li>
+<li>DruidWebStatFilterConfiguration.<strong>class</strong>, web监控配置；<strong>spring.datasource.druid.web-stat-filter；默认开启</strong></li>
+<li>DruidFilterConfiguration.<strong>class</strong>}) 所有Druid自己filter的配置<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_STAT_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.stat&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_CONFIG_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.config&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_ENCODING_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.encoding&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_SLF4J_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.slf4j&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_LOG4J_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.log4j&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_LOG4J2_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.log4j2&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_COMMONS_LOG_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.commons-log&quot;</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">FILTER_WALL_PREFIX</span> <span class="operator">=</span> <span class="string">&quot;spring.datasource.druid.filter.wall&quot;</span>;</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h4 id="3、配置示例"><a href="#3、配置示例" class="headerlink" title="3、配置示例"></a>3、配置示例</h4><div class="highlight-container" data-rel="Yaml"><figure class="iseeu highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/db_account</span></span><br><span class="line">    <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">    <span class="attr">password:</span> <span class="number">123456</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">druid:</span></span><br><span class="line">      <span class="attr">aop-patterns:</span> <span class="string">com.atguigu.admin.*</span>  <span class="comment">#监控SpringBean</span></span><br><span class="line">      <span class="attr">filters:</span> <span class="string">stat,wall</span>     <span class="comment"># 底层开启功能，stat（sql监控），wall（防火墙）</span></span><br><span class="line"></span><br><span class="line">      <span class="attr">stat-view-servlet:</span>   <span class="comment"># 配置监控页功能</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">login-username:</span> <span class="string">admin</span></span><br><span class="line">        <span class="attr">login-password:</span> <span class="string">admin</span></span><br><span class="line">        <span class="attr">resetEnable:</span> <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">      <span class="attr">web-stat-filter:</span>  <span class="comment"># 监控web</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">urlPattern:</span> <span class="string">/*</span></span><br><span class="line">        <span class="attr">exclusions:</span> <span class="string">&#x27;*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      <span class="attr">filter:</span></span><br><span class="line">        <span class="attr">stat:</span>    <span class="comment"># 对上面filters里面的stat的详细配置</span></span><br><span class="line">          <span class="attr">slow-sql-millis:</span> <span class="number">1000</span></span><br><span class="line">          <span class="attr">logSlowSql:</span> <span class="literal">true</span></span><br><span class="line">          <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">wall:</span></span><br><span class="line">          <span class="attr">enabled:</span> <span class="literal">true</span></span><br><span class="line">          <span class="attr">config:</span></span><br><span class="line">            <span class="attr">drop-table-allow:</span> <span class="literal">false</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+<p>SpringBoot配置示例<br><a class="link"   target="_blank" rel="noopener" href="https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter" >https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<p>配置项列表<a class="link"   target="_blank" rel="noopener" href="https://github.com/alibaba/druid/wiki/DruidDataSource%E9%85%8D%E7%BD%AE%E5%B1%9E%E6%80%A7%E5%88%97%E8%A1%A8" >https://github.com/alibaba/druid/wiki/DruidDataSource%E9%85%8D%E7%BD%AE%E5%B1%9E%E6%80%A7%E5%88%97%E8%A1%A8 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a></p>
+<h2 id="3、整合MyBatis操作"><a href="#3、整合MyBatis操作" class="headerlink" title="3、整合MyBatis操作"></a>3、整合MyBatis操作</h2><p><a class="link"   target="_blank" rel="noopener" href="https://github.com/mybatis" >https://github.com/mybatis <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br>starter<br>SpringBoot官方的Starter：spring-boot-starter-*<br>第三方的： *-spring-boot-starter</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2020/png/1354552/1606704096118-53001250-a04a-4210-80ee-6de6a370be2e.png?x-oss-process=image/watermark,type_d3F5LW1pY3JvaGVp,size_20,text_YXRndWlndS5jb20g5bCa56GF6LC3,color_FFFFFF,shadow_50,t_80,g_se,x_10,y_10#averageHue=%23e4b776&height=174&id=avW0z&originHeight=174&originWidth=699&originalType=binary&ratio=1&rotation=0&showTitle=false&size=17408&status=done&style=none&title=&width=699"
+                      alt="image.png"
+                ></p>
+<h3 id="1、配置模式"><a href="#1、配置模式" class="headerlink" title="1、配置模式"></a>1、配置模式</h3><ul>
+<li>全局配置文件</li>
+<li>SqlSessionFactory: 自动配置好了</li>
+<li>SqlSession：自动配置了 <strong>SqlSessionTemplate 组合了SqlSession</strong></li>
+<li>@Import(<strong>AutoConfiguredMapperScannerRegistrar</strong>.<strong>class</strong>）；</li>
+<li>Mapper： 只要我们写的操作MyBatis的接口标准了 <strong>@Mapper 就会被自动扫描进来</strong><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableConfigurationProperties(MybatisProperties.class)</span> ： MyBatis配置项绑定类。</span><br><span class="line"><span class="meta">@AutoConfigureAfter(&#123; DataSourceAutoConfiguration.class, MybatisLanguageDriverAutoConfiguration.class &#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MybatisAutoConfiguration</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ConfigurationProperties(prefix = &quot;mybatis&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MybatisProperties</span></span><br></pre></td></tr></table></figure></div>
+可以修改配置文件中 mybatis 开始的所有；</li>
+</ul>
+<div class="highlight-container" data-rel="Yaml"><figure class="iseeu highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置mybatis规则</span></span><br><span class="line"><span class="attr">mybatis:</span></span><br><span class="line">  <span class="attr">config-location:</span> <span class="string">classpath:mybatis/mybatis-config.xml</span>  <span class="comment">#全局配置文件位置</span></span><br><span class="line">  <span class="attr">mapper-locations:</span> <span class="string">classpath:mybatis/mapper/*.xml</span>  <span class="comment">#sql映射文件位置</span></span><br><span class="line">  </span><br><span class="line"><span class="string">Mapper接口---&gt;绑定Xml</span></span><br><span class="line"><span class="string">&lt;?xml</span> <span class="string">version=&quot;1.0&quot;</span> <span class="string">encoding=&quot;UTF-8&quot;</span> <span class="string">?&gt;</span></span><br><span class="line"><span class="string">&lt;!DOCTYPE</span> <span class="string">mapper</span></span><br><span class="line">        <span class="string">PUBLIC</span> <span class="string">&quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;</span></span><br><span class="line">        <span class="string">&quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;</span><span class="string">&gt;</span></span><br><span class="line"><span class="string">&lt;mapper</span> <span class="string">namespace=&quot;com.atguigu.admin.mapper.AccountMapper&quot;&gt;</span></span><br><span class="line"><span class="string">&lt;!--</span>    <span class="string">public</span> <span class="string">Account</span> <span class="string">getAcct(Long</span> <span class="string">id);</span> <span class="string">--&gt;</span></span><br><span class="line">    <span class="string">&lt;select</span> <span class="string">id=&quot;getAcct&quot;</span> <span class="string">resultType=&quot;com.atguigu.admin.bean.Account&quot;&gt;</span></span><br><span class="line">        <span class="string">select</span> <span class="string">*</span> <span class="string">from</span>  <span class="string">account_tbl</span> <span class="string">where</span>  <span class="string">id=#&#123;id&#125;</span></span><br><span class="line">    <span class="string">&lt;/select&gt;</span></span><br><span class="line"><span class="string">&lt;/mapper&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+
+<p>配置 **private **Configuration <strong>configuration</strong>; mybatis.<strong>configuration下面的所有，就是相当于改mybatis全局配置文件中的值</strong></p>
+<div class="highlight-container" data-rel="Yaml"><figure class="iseeu highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置mybatis规则</span></span><br><span class="line"><span class="attr">mybatis:</span></span><br><span class="line"><span class="comment">#  config-location: classpath:mybatis/mybatis-config.xml</span></span><br><span class="line">  <span class="attr">mapper-locations:</span> <span class="string">classpath:mybatis/mapper/*.xml</span></span><br><span class="line">  <span class="attr">configuration:</span></span><br><span class="line">    <span class="attr">map-underscore-to-camel-case:</span> <span class="literal">true</span></span><br><span class="line">    </span><br><span class="line"> <span class="string">可以不写全局；配置文件，所有全局配置文件的配置都放在configuration配置项中即可</span></span><br></pre></td></tr></table></figure></div>
+
+
+<ul>
+<li>导入mybatis官方starter</li>
+<li>编写mapper接口。标准@Mapper注解</li>
+<li>编写sql映射文件并绑定mapper接口</li>
+<li>在application.yaml中指定Mapper配置文件的位置，以及指定全局配置文件的信息 （建议；<strong>配置在mybatis.configuration</strong>）</li>
+</ul>
+<h3 id="2、注解模式"><a href="#2、注解模式" class="headerlink" title="2、注解模式"></a>2、注解模式</h3><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CityMapper</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select(&quot;select * from city where id=#&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> City <span class="title function_">getById</span><span class="params">(Long id)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insert</span><span class="params">(City city)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+
+
+
+<h3 id="3、混合模式"><a href="#3、混合模式" class="headerlink" title="3、混合模式"></a>3、混合模式</h3><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CityMapper</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Select(&quot;select * from city where id=#&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> City <span class="title function_">getById</span><span class="params">(Long id)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insert</span><span class="params">(City city)</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+
+<p><strong>最佳实战：</strong></p>
+<ul>
+<li>引入mybatis-starter</li>
+<li><strong>配置application.yaml中，指定mapper-location位置即可</strong></li>
+<li>编写Mapper接口并标注@Mapper注解</li>
+<li>简单方法直接注解方式</li>
+<li>复杂方法编写mapper.xml进行绑定映射</li>
+<li><em>@MapperScan(“com.atguigu.admin.mapper”) 简化，其他的接口就可以不用标注@Mapper注解</em></li>
+</ul>
+<h2 id="4、整合-MyBatis-Plus-完成CRUD"><a href="#4、整合-MyBatis-Plus-完成CRUD" class="headerlink" title="4、整合 MyBatis-Plus 完成CRUD"></a>4、整合 MyBatis-Plus 完成CRUD</h2><h3 id="1、什么是MyBatis-Plus"><a href="#1、什么是MyBatis-Plus" class="headerlink" title="1、什么是MyBatis-Plus"></a>1、什么是MyBatis-Plus</h3><p><a class="link"   target="_blank" rel="noopener" href="https://github.com/baomidou/mybatis-plus" >MyBatis-Plus <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>（简称 MP）是一个 <a class="link"   target="_blank" rel="noopener" href="http://www.mybatis.org/mybatis-3/" >MyBatis <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 的增强工具，在 MyBatis 的基础上只做增强不做改变，为简化开发、提高效率而生。<br><a class="link"   target="_blank" rel="noopener" href="https://baomidou.com/" >mybatis plus 官网 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a><br>建议安装 **MybatisX **插件 </p>
+<h3 id="2、整合MyBatis-Plus"><a href="#2、整合MyBatis-Plus" class="headerlink" title="2、整合MyBatis-Plus"></a>2、整合MyBatis-Plus</h3><div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.baomidou<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mybatis-plus-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+<p>自动配置</p>
+<ul>
+<li>MybatisPlusAutoConfiguration 配置类，MybatisPlusProperties 配置项绑定。<strong>mybatis-plus：xxx 就是对mybatis-plus的定制</strong></li>
+<li><strong>SqlSessionFactory 自动配置好。底层是容器中默认的数据源</strong></li>
+<li><em><em>mapperLocations 自动配置好的。有默认值。classpath</em>:&#x2F;mapper&#x2F;</em><em>&#x2F;</em>.xml；任意包的类路径下的所有mapper文件夹下任意路径下的所有xml都是sql映射文件。  建议以后sql映射文件，放在 mapper下**</li>
+<li><strong>容器中也自动配置好了 SqlSessionTemplate</strong></li>
+<li><strong>@Mapper 标注的接口也会被自动扫描；建议直接 <strong>@MapperScan(</strong>“com.atguigu.admin.mapper”</strong>) 批量扫描就行</li>
+</ul>
+<p><strong>优点：</strong></p>
+<ul>
+<li>只需要我们的Mapper继承 **BaseMapper **就可以拥有crud能力</li>
+</ul>
+<h3 id="3、CRUD功能"><a href="#3、CRUD功能" class="headerlink" title="3、CRUD功能"></a>3、CRUD功能</h3><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">    <span class="meta">@GetMapping(&quot;/user/delete/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">deleteUser</span><span class="params">(<span class="meta">@PathVariable(&quot;id&quot;)</span> Long id,</span></span><br><span class="line"><span class="params">                             <span class="meta">@RequestParam(value = &quot;pn&quot;,defaultValue = &quot;1&quot;)</span>Integer pn,</span></span><br><span class="line"><span class="params">                             RedirectAttributes ra)</span>&#123;</span><br><span class="line"></span><br><span class="line">        userService.removeById(id);</span><br><span class="line"></span><br><span class="line">        ra.addAttribute(<span class="string">&quot;pn&quot;</span>,pn);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;redirect:/dynamic_table&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/dynamic_table&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">dynamic_table</span><span class="params">(<span class="meta">@RequestParam(value=&quot;pn&quot;,defaultValue = &quot;1&quot;)</span> Integer pn,Model model)</span>&#123;</span><br><span class="line">        <span class="comment">//表格内容的遍历</span></span><br><span class="line"><span class="comment">//        response.sendError</span></span><br><span class="line"><span class="comment">//     List&lt;User&gt; users = Arrays.asList(new User(&quot;zhangsan&quot;, &quot;123456&quot;),</span></span><br><span class="line"><span class="comment">//                new User(&quot;lisi&quot;, &quot;123444&quot;),</span></span><br><span class="line"><span class="comment">//                new User(&quot;haha&quot;, &quot;aaaaa&quot;),</span></span><br><span class="line"><span class="comment">//                new User(&quot;hehe &quot;, &quot;aaddd&quot;));</span></span><br><span class="line"><span class="comment">//        model.addAttribute(&quot;users&quot;,users);</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//        if(users.size()&gt;3)&#123;</span></span><br><span class="line"><span class="comment">//            throw new UserTooManyException();</span></span><br><span class="line"><span class="comment">//        &#125;</span></span><br><span class="line">        <span class="comment">//从数据库中查出user表中的用户进行展示</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//构造分页参数</span></span><br><span class="line">        Page&lt;User&gt; page = <span class="keyword">new</span> <span class="title class_">Page</span>&lt;&gt;(pn, <span class="number">2</span>);</span><br><span class="line">        <span class="comment">//调用page进行分页</span></span><br><span class="line">        Page&lt;User&gt; userPage = userService.page(page, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//        userPage.getRecords()</span></span><br><span class="line"><span class="comment">//        userPage.getCurrent()</span></span><br><span class="line"><span class="comment">//        userPage.getPages()</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        model.addAttribute(<span class="string">&quot;users&quot;</span>,userPage);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;table/dynamic_table&quot;</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span> <span class="keyword">extends</span> <span class="title class_">ServiceImpl</span>&lt;UserMapper,User&gt; <span class="keyword">implements</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserService</span> <span class="keyword">extends</span> <span class="title class_">IService</span>&lt;User&gt; &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<h1 id="2、NoSQL"><a href="#2、NoSQL" class="headerlink" title="2、NoSQL"></a>2、NoSQL</h1><p>Redis 是一个开源（BSD许可）的，内存中的数据结构存储系统，它可以用作数据库、<strong>缓存</strong>和消息中间件。 它支持多种类型的数据结构，如 <a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/topics/data-types-intro.html#strings" >字符串（strings） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>， <a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/topics/data-types-intro.html#hashes" >散列（hashes） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>， <a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/topics/data-types-intro.html#lists" >列表（lists） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>， <a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/topics/data-types-intro.html#sets" >集合（sets） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>， <a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/topics/data-types-intro.html#sorted-sets" >有序集合（sorted sets） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 与范围查询， <a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/topics/data-types-intro.html#bitmaps" >bitmaps <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>， <a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/topics/data-types-intro.html#hyperloglogs" >hyperloglogs <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 和 <a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/commands/geoadd.html" >地理空间（geospatial） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 索引半径查询。 Redis 内置了 <a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/topics/replication.html" >复制（replication） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，<a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/commands/eval.html" >LUA脚本（Lua scripting） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>， <a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/topics/lru-cache.html" >LRU驱动事件（LRU eviction） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>，<a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/topics/transactions.html" >事务（transactions） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a> 和不同级别的 <a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/topics/persistence.html" >磁盘持久化（persistence） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>， 并通过 <a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/topics/sentinel.html" >Redis哨兵（Sentinel） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>和自动 <a class="link"   target="_blank" rel="noopener" href="http://www.redis.cn/topics/cluster-tutorial.html" >分区（Cluster） <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>提供高可用性（high availability）。</p>
+<h2 id="1、Redis自动配置"><a href="#1、Redis自动配置" class="headerlink" title="1、Redis自动配置"></a>1、Redis自动配置</h2><div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2020/png/1354552/1606745732785-17d1227a-75b9-4f00-a3f1-7fc4137b5113.png?x-oss-process=image/watermark,type_d3F5LW1pY3JvaGVp,size_17,text_YXRndWlndS5jb20g5bCa56GF6LC3,color_FFFFFF,shadow_50,t_80,g_se,x_10,y_10#averageHue=%23f8f6f4&height=428&id=Jryxl&originHeight=428&originWidth=590&originalType=binary&ratio=1&rotation=0&showTitle=false&size=37764&status=done&style=none&title=&width=590"
+                      alt="image.png"
+                ></p>
+<p>自动配置：</p>
+<ul>
+<li>RedisAutoConfiguration 自动配置类。RedisProperties 属性类 –&gt; <strong>spring.redis.xxx是对redis的配置</strong></li>
+<li>连接工厂是准备好的。<strong>Lettuce</strong>ConnectionConfiguration、<strong>Jedis</strong>ConnectionConfiguration</li>
+<li><strong>自动注入了RedisTemplate</strong>&lt;**Object**, **Object**&gt; ： xxxTemplate；</li>
+<li><strong>自动注入了StringRedisTemplate；k：v都是String</strong></li>
+<li><strong>key：value</strong></li>
+<li><strong>底层只要我们使用 StringRedisTemplate、RedisTemplate就可以操作redis</strong></li>
+</ul>
+<p><strong>redis环境搭建</strong><br><strong>1、阿里云按量付费redis。经典网络</strong><br><strong>2、申请redis的公网连接地址</strong><br><strong>3、修改白名单  允许0.0.0.0&#x2F;0 访问</strong></p>
+<h2 id="2、RedisTemplate与Lettuce"><a href="#2、RedisTemplate与Lettuce" class="headerlink" title="2、RedisTemplate与Lettuce"></a>2、RedisTemplate与Lettuce</h2><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">testRedis</span><span class="params">()</span>&#123;</span><br><span class="line">    ValueOperations&lt;String, String&gt; operations = redisTemplate.opsForValue();</span><br><span class="line"></span><br><span class="line">    operations.set(<span class="string">&quot;hello&quot;</span>,<span class="string">&quot;world&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">String</span> <span class="variable">hello</span> <span class="operator">=</span> operations.get(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">    System.out.println(hello);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+
+
+
+<h2 id="3、切换至jedis"><a href="#3、切换至jedis" class="headerlink" title="3、切换至jedis"></a>3、切换至jedis</h2><div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--        导入jedis--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>redis.clients<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jedis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Yaml"><figure class="iseeu highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">      <span class="attr">host:</span> <span class="string">r-bp1nc7reqesxisgxpipd.redis.rds.aliyuncs.com</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">6379</span></span><br><span class="line">      <span class="attr">password:</span> <span class="string">lfy:Lfy123456</span></span><br><span class="line">      <span class="attr">client-type:</span> <span class="string">jedis</span></span><br><span class="line">      <span class="attr">jedis:</span></span><br><span class="line">        <span class="attr">pool:</span></span><br><span class="line">          <span class="attr">max-active:</span> <span class="number">10</span></span><br></pre></td></tr></table></figure></div>
+
+            </div>
+
+            
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> 数据访问</li>
+        <li><strong>Author:</strong> 清风煮酒</li>
+        <li><strong>Created at:</strong> 2023-08-24 17:06:52</li>
+        
+            <li>
+                <strong>Updated at:</strong> 2023-08-24 17:04:31
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://redefine.ohevan.com/2023/08/24/数据访问/
+        </li>
+        <li>
+            <strong>License:</strong> This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+        </li>
+    </ul>
+</div>
+
+                </div>
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE/">#数据访问</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/2023/08/24/%E4%BA%86%E8%A7%A3%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">自动配置原理</span>
+                                    <span class="post-nav-item">Prev posts</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/2023/08/24/SpringSecurity%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">Spring Security</span>
+                                    <span class="post-nav-item">Next posts</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-pjax>
+        import { init } from 'https://evan.beee.top/js/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">数据访问</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1%E3%80%81SQL"><span class="nav-text">1、SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%E7%9A%84%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE-HikariDataSource"><span class="nav-text">1、数据源的自动配置-HikariDataSource</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E5%AF%BC%E5%85%A5JDBC%E5%9C%BA%E6%99%AF"><span class="nav-text">1、导入JDBC场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-text"></span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%88%86%E6%9E%90%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE"><span class="nav-text">2、分析自动配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%E9%A1%B9"><span class="nav-text">3、修改配置项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E6%B5%8B%E8%AF%95"><span class="nav-text">4、测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E4%BD%BF%E7%94%A8Druid%E6%95%B0%E6%8D%AE%E6%BA%90"><span class="nav-text">2、使用Druid数据源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81druid%E5%AE%98%E6%96%B9github%E5%9C%B0%E5%9D%80"><span class="nav-text">1、druid官方github地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E8%87%AA%E5%AE%9A%E4%B9%89%E6%96%B9%E5%BC%8F"><span class="nav-text">2、自定义方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E4%BD%BF%E7%94%A8%E5%AE%98%E6%96%B9starter%E6%96%B9%E5%BC%8F"><span class="nav-text">3、使用官方starter方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E6%95%B4%E5%90%88MyBatis%E6%93%8D%E4%BD%9C"><span class="nav-text">3、整合MyBatis操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E9%85%8D%E7%BD%AE%E6%A8%A1%E5%BC%8F"><span class="nav-text">1、配置模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E6%B3%A8%E8%A7%A3%E6%A8%A1%E5%BC%8F"><span class="nav-text">2、注解模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E6%B7%B7%E5%90%88%E6%A8%A1%E5%BC%8F"><span class="nav-text">3、混合模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E6%95%B4%E5%90%88-MyBatis-Plus-%E5%AE%8C%E6%88%90CRUD"><span class="nav-text">4、整合 MyBatis-Plus 完成CRUD</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AFMyBatis-Plus"><span class="nav-text">1、什么是MyBatis-Plus</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E6%95%B4%E5%90%88MyBatis-Plus"><span class="nav-text">2、整合MyBatis-Plus</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81CRUD%E5%8A%9F%E8%83%BD"><span class="nav-text">3、CRUD功能</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2%E3%80%81NoSQL"><span class="nav-text">2、NoSQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81Redis%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE"><span class="nav-text">1、Redis自动配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81RedisTemplate%E4%B8%8ELettuce"><span class="nav-text">2、RedisTemplate与Lettuce</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E5%88%87%E6%8D%A2%E8%87%B3jedis"><span class="nav-text">3、切换至jedis</span></a></li></ol></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">清风煮酒</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        VISITOR COUNT&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        TOTAL PAGE VIEWS&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a></span>
+                <br>
+            <span class="theme-version-container">THEME&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.1.2</a>
+        </div>
+        
+        
+        
+            <div id="start_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/navbarShrink.js"></script>
+
+<script src="/js/tools/scrollTopBottom.js"></script>
+
+<script src="/js/tools/lightDarkSwitch.js"></script>
+
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/tocToggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

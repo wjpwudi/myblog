@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="清风煮酒">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://yonina.space/2023/08/24/javaweb知识点/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="1.Ajaxajax是一种浏览器通过js异步发送请求，局部更新页面的技术 1.1，我们首先要创建XMLHttpRequest1.2、调用open方法设置请求参数1.3，调用send方法发送请求1.4、在send方法前绑定onreadystatechange事件，处理请求完成后的操作。请求实例 123456789101112131415$(&quot;#submit&quot;).click(fun">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java web知识点">
+<meta property="og:url" content="http://yonina.space/2023/08/24/javaweb%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.Ajaxajax是一种浏览器通过js异步发送请求，局部更新页面的技术 1.1，我们首先要创建XMLHttpRequest1.2、调用open方法设置请求参数1.3，调用send方法发送请求1.4、在send方法前绑定onreadystatechange事件，处理请求完成后的操作。请求实例 123456789101112131415$(&quot;#submit&quot;).click(fun">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-08-24T09:14:12.299Z">
+<meta property="article:modified_time" content="2023-08-24T09:12:41.371Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="javaweb知识点">
+<meta name="twitter:card" content="summary">
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/lm.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/lm.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/lm.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Java web知识点 -
+        
+        清风煮酒
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/assets/fonts.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"yonina.space","root":"/","language":"en"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[""]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true},"home_banner":{"enable":true,"image":{"light":"https://i.hd-r.cn/18a445cb91f22f6086a9393f719fba17.jpg","dark":"https://i.hd-r.cn/18a445cb91f22f6086a9393f719fba17.jpg"},"title":"welcome to 子羽 and Yonina's Family","subtitle":{"text":["我坚信，失败后的第一个黎明，就是争取胜利的新开始.","忘掉失败，不过要牢记失败中的教训.","我怕输，所以我从不敢放弃.","奋斗吧，改变不了起点但可以改变终点.","不是井里没有水，而是挖的不够深。不是成功来得慢，而是努力的不够狠.","不管梦想是什么，只有带着淡然的态度，做好当前的事情，才能如愿以偿.","抬头与低头，是人生的两种姿态。抬头需要底气，低头需要勇气","当你感觉到难的时候，就是你在进步的时候；机械、重复的工作是最低效的成长；而逼自己去做难的事，你没干过的事，就能大大提升你的潜力","人的一生不可能一帆风顺,而正是由于有了一些困难和挫折,我们的人 生才会有意义"],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"links":{"github":"https://github.com/wjpwudi/blog","instagram":null,"zhihu":null,"twitter":null,"email":"2806109090@qq.com# your email","YUQUE":"https://www.yuque.com/wangjinpeng-jlws0/dyk7c7"}},"style":"static"},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.1.2","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":30},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"分类":{"path":"/categories/","icon":"fa-solid fa-robot"},"标签":{"path":"/tags/","icon":"fa-duotone fa-book"},"友链":{"path":"/links/","icon":"fa-solid fa-link"},"关于":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/wjpwudi/blog","Gitee":"https://gitee.com/wjpwudi/myblog","Yuque":"https://www.yuque.com/wangjinpeng-jlws0/dyk7c7"}}},"search":{"enable":false,"preload":true},"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}}};
+    Global.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                清风煮酒
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/categories/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-robot"></i>
+                                        
+                                        分类
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/tags/"  >
+                                    
+                                        
+                                            <i class="fa-duotone fa-book"></i>
+                                        
+                                        标签
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/links/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-link"></i>
+                                        
+                                        友链
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        关于&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/wjpwudi/blog">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://gitee.com/wjpwudi/myblog">GITEE
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://www.yuque.com/wangjinpeng-jlws0/dyk7c7">YUQUE
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/categories/"  >
+                             
+                                
+                                    <i class="fa-solid fa-robot"></i>
+                                
+                                分类
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/tags/"  >
+                             
+                                
+                                    <i class="fa-duotone fa-book"></i>
+                                
+                                标签
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/links/"  >
+                             
+                                
+                                    <i class="fa-solid fa-link"></i>
+                                
+                                友链
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                关于&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/wjpwudi/blog">GITHUB</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://gitee.com/wjpwudi/myblog">GITEE</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://www.yuque.com/wangjinpeng-jlws0/dyk7c7">YUQUE</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">Java web知识点</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="https://img2.baidu.com/it/u=3556369831,3766649660&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=499">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">清风煮酒</span>
+                            
+                                <span class="author-label"></span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-08-24 17:14:12</span>
+        <span class="mobile">2023-08-24 17:14</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-08-24 17:12:41</span>
+            <span class="mobile">2023-08-24 17:12</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Java-Web/">Java Web</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/javaweb%E7%9F%A5%E8%AF%86%E7%82%B9/">javaweb知识点</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <h1 id="1-Ajax"><a href="#1-Ajax" class="headerlink" title="1.Ajax"></a>1.Ajax</h1><p>ajax是一种浏览器通过js异步发送请求，局部更新页面的技术</p>
+<h5 id="1-1，我们首先要创建XMLHttpRequest"><a href="#1-1，我们首先要创建XMLHttpRequest" class="headerlink" title="1.1，我们首先要创建XMLHttpRequest"></a>1.1，我们首先要创建XMLHttpRequest</h5><h5 id="1-2、调用open方法设置请求参数"><a href="#1-2、调用open方法设置请求参数" class="headerlink" title="1.2、调用open方法设置请求参数"></a>1.2、调用open方法设置请求参数</h5><h5 id="1-3，调用send方法发送请求"><a href="#1-3，调用send方法发送请求" class="headerlink" title="1.3，调用send方法发送请求"></a>1.3，调用send方法发送请求</h5><h5 id="1-4、在send方法前绑定onreadystatechange事件，处理请求完成后的操作。"><a href="#1-4、在send方法前绑定onreadystatechange事件，处理请求完成后的操作。" class="headerlink" title="1.4、在send方法前绑定onreadystatechange事件，处理请求完成后的操作。"></a>1.4、在send方法前绑定onreadystatechange事件，处理请求完成后的操作。</h5><p>请求实例</p>
+<div class="highlight-container" data-rel="Javascript"><figure class="iseeu highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">&quot;#submit&quot;</span>).<span class="title function_">click</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>($(<span class="string">&quot;#form&quot;</span>).<span class="title function_">serialize</span>())</span><br><span class="line">		$.<span class="title function_">ajax</span>(&#123;</span><br><span class="line">			<span class="attr">url</span>:<span class="string">&#x27;$&#123;pageContext.request.contextPath&#125;/user&#x27;</span>,</span><br><span class="line">			<span class="attr">type</span>:<span class="string">&#x27;post&#x27;</span>,</span><br><span class="line">			<span class="attr">data</span>:$(<span class="string">&quot;#form&quot;</span>).<span class="title function_">serialize</span>(),</span><br><span class="line">			<span class="attr">dataType</span>:<span class="string">&#x27;json&#x27;</span>,</span><br><span class="line">			<span class="attr">success</span>:<span class="keyword">function</span> (<span class="params">res</span>) &#123;</span><br><span class="line">				<span class="keyword">if</span> (res.<span class="property">success</span>)&#123;</span><br><span class="line">					layer.<span class="title function_">msg</span>(res.<span class="property">message</span>,&#123;<span class="attr">icon</span>:<span class="number">1</span>&#125;,<span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">						location.<span class="property">href</span> = <span class="string">&#x27;$&#123;pageContext.request.contextPath&#125;/user?action=mainView&#x27;</span></span><br><span class="line">					&#125;)</span><br><span class="line">				&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">					layer.<span class="title function_">msg</span>(res.<span class="property">message</span>,&#123;<span class="attr">icon</span>:<span class="number">2</span>,<span class="attr">time</span>:<span class="number">500</span>&#125;)</span><br><span class="line">				&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>表单序列化serialize()<br>serialize()可以把表单中所有表单项的内容都获取到，并以name&#x3D;value&amp;name&#x3D;value的形式进行拼接。</p>
+<h1 id="2-Filter"><a href="#2-Filter" class="headerlink" title="2.Filter"></a>2.Filter</h1><h3 id="2-1、Filter过滤器它是JavaWeb的三大组件之一。"><a href="#2-1、Filter过滤器它是JavaWeb的三大组件之一。" class="headerlink" title="2.1、Filter过滤器它是JavaWeb的三大组件之一。"></a>2.1、Filter过滤器它是JavaWeb的三大组件之一。</h3><pre><code>三大组件分别是:Servlet程序、Listener监听器、Filter过滤器
+</code></pre>
+<h3 id="2-2-Filter是一个接口"><a href="#2-2-Filter是一个接口" class="headerlink" title="2.2.Filter是一个接口"></a>2.2.Filter是一个接口</h3><h3 id="2-3-作用是拦截请求，过滤响应"><a href="#2-3-作用是拦截请求，过滤响应" class="headerlink" title="2.3.作用是拦截请求，过滤响应"></a>2.3.作用是拦截请求，过滤响应</h3><pre><code>拦截请求常见的应用场景有：权限检查 日记操作 事务管理....
+</code></pre>
+<h3 id="2-4Filter的初体验"><a href="#2-4Filter的初体验" class="headerlink" title="2.4Filter的初体验"></a>2.4Filter的初体验</h3><p>在你的web工程下，有一个admin目录，这个admin目录下的所有资源（html页面 jpg图片）必须是用户登录之后才允许访问</p>
+<p>查看用户是否登录，在session对象域中查看是否包含这个信息。</p>
+<p>Httpsession session &#x3D; httpservletRequest.getsession();<br>object user &#x3D; session.getAttribute( “user” );</p>
+<p>如果存在登录 让程序继续往下走访问资源</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--给filter起一个别名--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>AdminEilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--配置filter的全类名--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>com.atguigu.filter.AdminFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">&lt;! --filter-name表示当前的拦截路径给哪个filter使用--&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>AdminFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">&lt;! --url-pattern配置拦截路径</span><br><span class="line">	/表示请求地址为: http : / /ip:port/工程路径/  映射到IDEA 的web目录</span><br><span class="line">	/admin/*表示请求地址为 http : / /ip:port/工程路径/admin/*</span><br><span class="line"><span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/admin/*<span class="tag">&lt;/<span class="name">ur1-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="2-5Filter过滤器的使用步骤："><a href="#2-5Filter过滤器的使用步骤：" class="headerlink" title="2.5Filter过滤器的使用步骤："></a>2.5Filter过滤器的使用步骤：</h3><pre><code>1.编写一个类去实现Filter接口
+2.实现过滤方法doFilter（）
+3.到web.xml去配置filter的拦截路径
+</code></pre>
+<p>init()初始化    doFilter（）   distory()</p>
+<h1 id="3-四大域"><a href="#3-四大域" class="headerlink" title="3.四大域"></a>3.<code>四大域</code></h1><h5 id="3-1常用请求头的说明"><a href="#3-1常用请求头的说明" class="headerlink" title="3.1常用请求头的说明"></a>3.1常用请求头的说明</h5><p>accept:表示客户端可以接收的数据类型<br>Accpet-Languege:表示客户端可以接牧的语言类型<br>User-Agent:表示客户端浏览器的信息<br>Host:表示请求时的服务器ip和端口号</p>
+<h5 id="3-2那些是GET请求-那些事POST请求"><a href="#3-2那些是GET请求-那些事POST请求" class="headerlink" title="3.2那些是GET请求 那些事POST请求"></a>3.2那些是GET请求 那些事POST请求</h5><p>Get<br>1.form标签 method&#x3D;get<br>2.a标签<br>3、link标签引入 css<br>4、Script标签引入js文件<br>5、img标签引入图片<br>6、iframe引html页面<br>7、在浏览器地址栏中输入地址后敲回车<br>post<br>8.form标签 method&#x3D;post</p>
+<h5 id="3-3响应的HTTP协议格式"><a href="#3-3响应的HTTP协议格式" class="headerlink" title="3.3响应的HTTP协议格式"></a>3.3响应的HTTP协议格式</h5><h6 id="3-3-1响应行"><a href="#3-3-1响应行" class="headerlink" title="3.3.1响应行"></a>3.3.1响应行</h6><p>（1)响应的协议和版本号<br>（2)响应状态码<br>（3)响应状态描述符</p>
+<h6 id="3-3-2响应头"><a href="#3-3-2响应头" class="headerlink" title="3.3.2响应头"></a>3.3.2响应头</h6><p>(1)key : value 不同的响应头，有其不同含义</p>
+<h6 id="3-3-3-响应体-—-gt-gt-gt-就是回传给客户端的数据"><a href="#3-3-3-响应体-—-gt-gt-gt-就是回传给客户端的数据" class="headerlink" title="3.3.3.响应体  —&gt;&gt;&gt; 就是回传给客户端的数据"></a>3.3.3.响应体  —&gt;&gt;&gt; 就是回传给客户端的数据</h6><p>常见的响应码<br>200   表示请求成功<br>302   表示请求重定向<br>404   表示请求服务器已经收到，但是你要的数据不存在（请求地址错误或者不存在）<br>500   表示服务器已经收到请求，但是服务器代码错误（内部错误）</p>
+<p>MIME</p>
+<p>…….     是HTTP协议中数据类型</p>
+<h5 id="3-4servlet四大域"><a href="#3-4servlet四大域" class="headerlink" title="3.4servlet四大域"></a>3.4servlet四大域</h5><pre><code>**Application Request  Session  Page**
+</code></pre>
+<p>HttpServletRequest类<br>       a)HttpServletRequest类有什么作用<br>    每次只要有请求进入Torcat服务器，Tomcat服务器就会把请求过来的HTTP协议信息解析好封装到Request对象中。<br>然后传递到service方法（( doGet和doPost)中给我们使用。我们可以通过 HttpservletRequest对象，获取到所有请求的信息。<br>b)HttpServletRequest类的常用方法<br>        i. getRequestURI()    	获取请求的资源路径<br>        ii. getRequestURL     	获取请求的统一资源定位符（绝对路径)<br>        iii.getRemoteHost()	  	获取客户端的ip地址<br>        iv. getHeader()		获取请求头<br>        v. getParameter(）	 	获取请求的参数<br>        vi.getParameterValues(） 	获取请求的参数(多个值的时候使用)<br>        vii.getMethod()   		获取请求的方式GET 或POST<br>        viii. setAttribute( key , value);  设置域数据<br>        ix. getAttribute(key);   	获取域数据<br>        x. getRequestDispatcher()    	获取请求转发对象</p>
+<h5 id="3-6解决中文乱码："><a href="#3-6解决中文乱码：" class="headerlink" title="3.6解决中文乱码："></a>3.6解决中文乱码：</h5><pre><code>在获取数据前面才有效
+它会同时设置服务器和客服端都是用UTF-8字符集，还设置了响应头
+req.setCharacterEncoding(&quot;UTF-8&quot;)
+resp.setCharacterEncoding(&quot;UTF-8&quot;)
+</code></pre>
+<h5 id="3-7请求转发"><a href="#3-7请求转发" class="headerlink" title="3.7请求转发"></a>3.7请求转发</h5><p>    什么是请求的转发?<br>    请求转发是指，服务器收到请求后，从一次资源跳转到另一个资源的操作叫请求转发。</p>
+<p>base标签作用</p>
+<p>往客户端回传 字符串 数据<br>PrintWriter writer &#x3D; resp.getWriter<br>writer.writer(“”)</p>
+<h5 id="3-7重定向："><a href="#3-7重定向：" class="headerlink" title="3.7重定向："></a>3.7重定向：</h5><pre><code>请求重定向是指客户端给服务器发请求，然后服务器告诉客户端说：我给你一些地址，
+你去新地址去访问（因为之前的地址可能已经被废弃）
+</code></pre>
+<h6 id="3-7-1请求重定向的特点"><a href="#3-7-1请求重定向的特点" class="headerlink" title="3.7.1请求重定向的特点:"></a>3.7.1请求重定向的特点:</h6><pre><code>1.浏览器地址栏会发生变化
+2.两次请求
+3.不共享Request域中数据
+4.不能访问WEB-INF下的资源
+5.可以访问工程外的资源
+</code></pre>
+<p>请求重定向的第一种方案<br>设置响应状态码302，表示重定向<br>resp.setStatus(302)<br>设置响应头，说明新的地址在那儿<br>resp.setHeadrt(“location”,”<a class="link"   target="_blank" rel="noopener" href="http://localhost:8080/" >http://localhost:8080 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>“);</p>
+<p>请求重定向的第二种方式（推荐使用)<br>resp.sendRedirect(“<a class="link"   target="_blank" rel="noopener" href="http://localhost:8080/" >http://localhost:8080 <i class="fa-regular fa-arrow-up-right-from-square fa-sm"></i></a>“)</p>
+<h1 id="4-El表达式"><a href="#4-El表达式" class="headerlink" title="4.El表达式"></a>4.El表达式</h1><p>EL表达式：<br>主要是在jsp页面中输出数据<br>主要是输出域对象中的数据</p>
+<p>在四大域中若都有key<br>先获取page里面的key，其次是request  ssesion  application</p>
+<p>EL表达式{<br>运算：关系运算  	  逻辑运算		 算数运算</p>
+<p>&lt;c:forEach &#x2F;&gt;<br>作用：遍历输出使用<br>遍历1-10，输出</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;c:forEach begin=&quot;1&quot; end=&quot;10&quot; var=&quot;i&quot;&gt;</span><br><span class="line">  		$&#123; i &#125; &lt;br&gt;</span><br><span class="line">  		</span><br><span class="line">  	&lt;/c:forEach&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="5-Cookie和Session"><a href="#5-Cookie和Session" class="headerlink" title="5.Cookie和Session"></a>5.Cookie和Session</h1><h5 id="5-1cookie"><a href="#5-1cookie" class="headerlink" title="5.1cookie"></a>5.1cookie</h5><p>是服务器通知客户端保存键值对的一种技术。</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1 创建cookie对象</span></span><br><span class="line"><span class="type">cookie</span> <span class="variable">cookie</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">cookie</span>( <span class="string">&quot;key1&quot;</span>,  <span class="string">&quot;value1&quot;</span>);</span><br><span class="line"><span class="comment">//2通知客户端保存cookie</span></span><br><span class="line">resp.addcookie(cookie);</span><br><span class="line">resp.getWriter().writer(<span class="string">&quot;创建成功&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<p>可以一次创建多个Cookie</p>
+<h5 id="5-2Seesion"><a href="#5-2Seesion" class="headerlink" title="5.2Seesion"></a>5.2Seesion</h5><pre><code>1.是一个接口（HttpSession）
+2.就是会话，用来维护一个客户端和服务器之间关联的一种技术
+3.每个客户端都有自己的一个session会话
+4.Session会话中，我们经常用来保存用户登录之后的信息
+</code></pre>
+<p>如何创建Session和获取（id号，是否为新）</p>
+<p>request.getSession()<br>第一次调用是：创建Session会话<br>之后调用是：获取前面创建好的Session会话对象。<br>isNew()：判断到底是不是刚创建出来的（新的）</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">true 表示刚创建</span><br><span class="line">  false 表示获取之前创建</span><br></pre></td></tr></table></figure></div>
+
+<p>每个会话都有一个身份号码，也就是ID值，而且是唯一的<br>getid()得到Session的护花id值</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">req.getSession().setAttribute(<span class="string">&quot;&quot;</span>,<span class="string">&quot;&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+
+
+<h1 id="6-文件的上传和下载"><a href="#6-文件的上传和下载" class="headerlink" title="6.文件的上传和下载"></a>6.文件的上传和下载</h1><h5 id="6-1上传"><a href="#6-1上传" class="headerlink" title="6.1上传"></a>6.1上传</h5><pre><code>1.要有一个form标签，method= post请求
+2.form标签要有enctype属性值必须为multipart/form-data值
+3.在form标签中使用input type=file添加上传的文件
+4.编写服务器代码接收，处理上传的数据
+
+Content-Type表示提交的数据类型
+encType=multipart/form-data表示提交的数据，以多段（每一个表单项一个数据段）的形式进行拼接，然后以二进制流的形式发送给服务器
+boundary 表示每段数据的分隔符（由浏览器随机生成）
+</code></pre>
+<h5 id="6-2下载："><a href="#6-2下载：" class="headerlink" title="6.2下载："></a>6.2下载：</h5><pre><code>客户端（发送请求，告诉服务器我要下载什么文件 ）---&gt;服务器 1、获取要下或的文件名
+</code></pre>
+<p>2、读取要下载的文件内容’</p>
+<p>3、把下载的文件内容回传给客户端<br>4.在回传前，通过响应头告诉客户端返回的数据类型5.还要告诉客户端收到的数据是用于下载使用（还是使用响应头）</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//获取要下或的文件名</span><br><span class="line">string downloadFileName = &quot;2-jpg&quot;;</span><br><span class="line">//读取要下载的文件内容&#x27;</span><br><span class="line">servletcontext servletcontext = getservletcontext();</span><br><span class="line">Inputstream resourceAsStream=servletcontext.getResourceAsstream( &quot;/file/ &quot;+downFilename);</span><br><span class="line">//获取响应的输出流</span><br><span class="line">outputstream outputstream = resp.getoutputstream();</span><br><span class="line">//读取输入流中全部的数据，复制给输出流，输出给客户端</span><br><span class="line">Ioutils.copy(resourceAsstredm,outputstream);</span><br><span class="line"></span><br><span class="line">//把下载的文件内容回传给客户端</span><br><span class="line"></span><br><span class="line">//在回传前，通过响应头告诉客户端返回的数据类型</span><br><span class="line">resp. setcontentType(“类型&quot;);</span><br><span class="line">//还要告诉客户端收到的数据是用于下载使用（还是使用响应头）</span><br><span class="line"> // content-Disposition响应头，表示收到的数据怎么处理</span><br><span class="line">//attachment表示附件，表示下载使用   filename=表示指定下载的文件名</span><br><span class="line">resp.setHeader( &quot;content-Disposition&quot;,&quot;attachment;filename =&quot;&quot;+downfilename);</span><br></pre></td></tr></table></figure></div>
+
+            </div>
+
+            
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Java web知识点</li>
+        <li><strong>Author:</strong> 清风煮酒</li>
+        <li><strong>Created at:</strong> 2023-08-24 17:14:12</li>
+        
+            <li>
+                <strong>Updated at:</strong> 2023-08-24 17:12:41
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://redefine.ohevan.com/2023/08/24/javaweb知识点/
+        </li>
+        <li>
+            <strong>License:</strong> This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+        </li>
+    </ul>
+</div>
+
+                </div>
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/javaweb%E7%9F%A5%E8%AF%86%E7%82%B9/">#javaweb知识点</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/2023/08/24/maven%E7%9F%A5%E8%AF%86%E7%82%B9/"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">Maven</span>
+                                    <span class="post-nav-item">Prev posts</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/2023/08/24/spring%E6%A1%86%E6%9E%B6%E6%B3%A8%E8%A7%A3/"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">spring框架注解</span>
+                                    <span class="post-nav-item">Next posts</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-pjax>
+        import { init } from 'https://evan.beee.top/js/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">Java web知识点</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Ajax"><span class="nav-text">1.Ajax</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Filter"><span class="nav-text">2.Filter</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E3%80%81Filter%E8%BF%87%E6%BB%A4%E5%99%A8%E5%AE%83%E6%98%AFJavaWeb%E7%9A%84%E4%B8%89%E5%A4%A7%E7%BB%84%E4%BB%B6%E4%B9%8B%E4%B8%80%E3%80%82"><span class="nav-text">2.1、Filter过滤器它是JavaWeb的三大组件之一。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Filter%E6%98%AF%E4%B8%80%E4%B8%AA%E6%8E%A5%E5%8F%A3"><span class="nav-text">2.2.Filter是一个接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E4%BD%9C%E7%94%A8%E6%98%AF%E6%8B%A6%E6%88%AA%E8%AF%B7%E6%B1%82%EF%BC%8C%E8%BF%87%E6%BB%A4%E5%93%8D%E5%BA%94"><span class="nav-text">2.3.作用是拦截请求，过滤响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4Filter%E7%9A%84%E5%88%9D%E4%BD%93%E9%AA%8C"><span class="nav-text">2.4Filter的初体验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5Filter%E8%BF%87%E6%BB%A4%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-text">2.5Filter过滤器的使用步骤：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%9B%9B%E5%A4%A7%E5%9F%9F"><span class="nav-text">3.四大域</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-El%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-text">4.El表达式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-Cookie%E5%92%8CSession"><span class="nav-text">5.Cookie和Session</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E6%96%87%E4%BB%B6%E7%9A%84%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD"><span class="nav-text">6.文件的上传和下载</span></a></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">清风煮酒</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        VISITOR COUNT&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        TOTAL PAGE VIEWS&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a></span>
+                <br>
+            <span class="theme-version-container">THEME&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.1.2</a>
+        </div>
+        
+        
+        
+            <div id="start_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/navbarShrink.js"></script>
+
+<script src="/js/tools/scrollTopBottom.js"></script>
+
+<script src="/js/tools/lightDarkSwitch.js"></script>
+
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/tocToggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

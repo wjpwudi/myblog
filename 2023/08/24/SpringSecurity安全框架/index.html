@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="清风煮酒">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://yonina.space/2023/08/24/springsecurity安全框架/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="1,基本原理springSecurity本质是一个过滤器链 2.过滤器如何进行加载的1.使用SpringSecurity 配置过滤器*DelegatingFilterRroxy   2 两个重要的接口UserDetailService接口：查询数据库用户名和密码过程  创建类继承UsernamePasswordAuthenticationFilter，重写三个方法 创建类实现UserDetailS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Security">
+<meta property="og:url" content="http://yonina.space/2023/08/24/SpringSecurity%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1,基本原理springSecurity本质是一个过滤器链 2.过滤器如何进行加载的1.使用SpringSecurity 配置过滤器*DelegatingFilterRroxy   2 两个重要的接口UserDetailService接口：查询数据库用户名和密码过程  创建类继承UsernamePasswordAuthenticationFilter，重写三个方法 创建类实现UserDetailS">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678667432313-1eaafeeb-b543-464f-893b-fefe1213e092.png#averageHue=%23f3f3f2&clientId=u67f9fe88-5cbc-4&from=ui&id=uaffb944b&originHeight=420&originWidth=1521&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=231838&status=done&style=none&taskId=u550ceb2d-35b2-4260-8d75-30acc67b37a&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678448256854-6b04a48c-31af-43d8-a2ea-2c6d95c9e732.png#averageHue=%23f7f6f4&clientId=u1a8df95d-cf0a-4&from=ui&id=u3a2ce03a&originHeight=524&originWidth=650&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=150135&status=done&style=none&taskId=u3dab96ba-8dfe-4c64-8930-d7ed6a7da76&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678448256766-5b54a847-a27f-4471-9441-47bc105243f3.png#averageHue=%23f4f4f3&clientId=u1a8df95d-cf0a-4&from=ui&id=u764eaab9&originHeight=551&originWidth=594&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=91338&status=done&style=none&taskId=ube6a74a5-83ac-476a-81de-5bdec88476a&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678448257069-48cb9460-76c2-45c9-b525-d05232850130.png#averageHue=%23f9f6f5&clientId=u1a8df95d-cf0a-4&from=ui&id=u7ae3c7dd&originHeight=480&originWidth=1583&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=327479&status=done&style=none&taskId=ud1965895-cd8c-4090-ae89-2d5f6d9eaed&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678448256808-f9320a8d-4d1b-4ee5-a762-d4dc22a36247.png#averageHue=%23deddcc&clientId=u1a8df95d-cf0a-4&from=ui&id=uff4e1ce4&originHeight=232&originWidth=609&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=84549&status=done&style=none&taskId=u3b091192-7139-4957-8efe-1b08aae99cb&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678448256992-37842013-632c-4a20-a02f-e7fc7714ac4b.png#averageHue=%238eb273&clientId=u1a8df95d-cf0a-4&from=ui&id=ue6c2d6e8&originHeight=583&originWidth=1548&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=209907&status=done&style=none&taskId=u0a5934ba-8ef3-4103-a95c-3616ea5cab1&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678449134556-0f96d280-0b6f-4eb8-8139-f959015eab39.png#averageHue=%238eb273&clientId=u02e58226-28d7-4&from=ui&id=VarAX&originHeight=583&originWidth=1548&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=209907&status=done&style=none&taskId=uacd201ef-640b-4e7f-b2ee-136bd80c991&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678449134282-72292ff9-0ede-4525-8c59-1bec6aba1530.png#averageHue=%23f8f4f4&clientId=u02e58226-28d7-4&from=ui&id=LGfp4&originHeight=210&originWidth=257&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=24723&status=done&style=none&taskId=ucd6da145-89f1-4bf1-b863-97ca3ef59f8&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678449134514-30834775-ee95-4678-bc51-10a3013b3355.png#averageHue=%23f6f3f2&clientId=u02e58226-28d7-4&from=ui&id=hh578&originHeight=268&originWidth=703&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=94437&status=done&style=none&taskId=ubc62cdfd-443e-4be4-8743-362bf1db49e&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678449134518-5a4504c1-4698-4b35-9950-e5ced787bcc3.png#averageHue=%23f4f3eb&clientId=u02e58226-28d7-4&from=ui&id=Xt9tK&originHeight=162&originWidth=742&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=74765&status=done&style=none&taskId=u996164ab-513f-4412-95e2-7b788de90ad&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678449134428-4b54d7e0-12f4-48cc-82ed-fa3a9637f72c.png#averageHue=%23faf7f6&clientId=u02e58226-28d7-4&from=ui&id=yjUrh&originHeight=137&originWidth=580&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=42861&status=done&style=none&taskId=ue8df3686-2924-40ea-a5ba-9e0fab8be56&title=">
+<meta property="article:published_time" content="2023-08-24T08:56:08.701Z">
+<meta property="article:modified_time" content="2023-08-24T08:58:00.278Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="spring security">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678667432313-1eaafeeb-b543-464f-893b-fefe1213e092.png#averageHue=%23f3f3f2&clientId=u67f9fe88-5cbc-4&from=ui&id=uaffb944b&originHeight=420&originWidth=1521&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=231838&status=done&style=none&taskId=u550ceb2d-35b2-4260-8d75-30acc67b37a&title=">
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/lm.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/lm.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/lm.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Spring Security -
+        
+        清风煮酒
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/assets/fonts.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"yonina.space","root":"/","language":"en"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[""]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true},"home_banner":{"enable":true,"image":{"light":"https://i.hd-r.cn/18a445cb91f22f6086a9393f719fba17.jpg","dark":"https://i.hd-r.cn/18a445cb91f22f6086a9393f719fba17.jpg"},"title":"welcome to 子羽 and Yonina's Family","subtitle":{"text":["我坚信，失败后的第一个黎明，就是争取胜利的新开始.","忘掉失败，不过要牢记失败中的教训.","我怕输，所以我从不敢放弃.","奋斗吧，改变不了起点但可以改变终点.","不是井里没有水，而是挖的不够深。不是成功来得慢，而是努力的不够狠.","不管梦想是什么，只有带着淡然的态度，做好当前的事情，才能如愿以偿.","抬头与低头，是人生的两种姿态。抬头需要底气，低头需要勇气","当你感觉到难的时候，就是你在进步的时候；机械、重复的工作是最低效的成长；而逼自己去做难的事，你没干过的事，就能大大提升你的潜力","人的一生不可能一帆风顺,而正是由于有了一些困难和挫折,我们的人 生才会有意义"],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"links":{"github":"https://github.com/wjpwudi/blog","instagram":null,"zhihu":null,"twitter":null,"email":"2806109090@qq.com# your email","YUQUE":"https://www.yuque.com/wangjinpeng-jlws0/dyk7c7"}},"style":"static"},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.1.2","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":30},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"分类":{"path":"/categories/","icon":"fa-solid fa-robot"},"标签":{"path":"/tags/","icon":"fa-duotone fa-book"},"友链":{"path":"/links/","icon":"fa-solid fa-link"},"关于":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/wjpwudi/blog","Gitee":"https://gitee.com/wjpwudi/myblog","Yuque":"https://www.yuque.com/wangjinpeng-jlws0/dyk7c7"}}},"search":{"enable":false,"preload":true},"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}}};
+    Global.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                清风煮酒
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/categories/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-robot"></i>
+                                        
+                                        分类
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/tags/"  >
+                                    
+                                        
+                                            <i class="fa-duotone fa-book"></i>
+                                        
+                                        标签
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/links/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-link"></i>
+                                        
+                                        友链
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        关于&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/wjpwudi/blog">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://gitee.com/wjpwudi/myblog">GITEE
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://www.yuque.com/wangjinpeng-jlws0/dyk7c7">YUQUE
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/categories/"  >
+                             
+                                
+                                    <i class="fa-solid fa-robot"></i>
+                                
+                                分类
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/tags/"  >
+                             
+                                
+                                    <i class="fa-duotone fa-book"></i>
+                                
+                                标签
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/links/"  >
+                             
+                                
+                                    <i class="fa-solid fa-link"></i>
+                                
+                                友链
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                关于&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/wjpwudi/blog">GITHUB</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://gitee.com/wjpwudi/myblog">GITEE</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://www.yuque.com/wangjinpeng-jlws0/dyk7c7">YUQUE</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">Spring Security</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="https://img2.baidu.com/it/u=3556369831,3766649660&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=499">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">清风煮酒</span>
+                            
+                                <span class="author-label"></span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-08-24 16:56:08</span>
+        <span class="mobile">2023-08-24 16:56</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-08-24 16:58</span>
+            <span class="mobile">2023-08-24 16:58</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/spring/">spring</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/spring-security/">spring security</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <h3 id="1-基本原理"><a href="#1-基本原理" class="headerlink" title="1,基本原理"></a>1,基本原理</h3><p>springSecurity本质是一个过滤器链</p>
+<h3 id="2-过滤器如何进行加载的"><a href="#2-过滤器如何进行加载的" class="headerlink" title="2.过滤器如何进行加载的"></a>2.过滤器如何进行加载的</h3><h4 id="1-使用SpringSecurity-配置过滤器"><a href="#1-使用SpringSecurity-配置过滤器" class="headerlink" title="1.使用SpringSecurity 配置过滤器"></a>1.使用SpringSecurity 配置过滤器</h4><pre><code>*DelegatingFilterRroxy
+</code></pre>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678667432313-1eaafeeb-b543-464f-893b-fefe1213e092.png#averageHue=%23f3f3f2&clientId=u67f9fe88-5cbc-4&from=ui&id=uaffb944b&originHeight=420&originWidth=1521&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=231838&status=done&style=none&taskId=u550ceb2d-35b2-4260-8d75-30acc67b37a&title="
+                      alt="image-20230307200151589.png"
+                ></p>
+<h4 id="2-两个重要的接口"><a href="#2-两个重要的接口" class="headerlink" title="2 两个重要的接口"></a>2 两个重要的接口</h4><p>UserDetailService接口：查询数据库用户名和密码过程</p>
+<ul>
+<li>创建类继承UsernamePasswordAuthenticationFilter，重写三个方法</li>
+<li>创建类实现UserDetailService，编写查询数据过程，返回User对象，这个User对象是安全框架提供对象</li>
+</ul>
+<p>PasswordEncoder接口：提供密码加密的接口，用于返回User对象里面密码加密</p>
+<h3 id="3、设置登录的用户名和密码"><a href="#3、设置登录的用户名和密码" class="headerlink" title="3、设置登录的用户名和密码"></a>3、设置登录的用户名和密码</h3><ul>
+<li>第一种方式:通过配置文件 </li>
+<li>第二种方式:通过配置类 </li>
+<li>第三种方式:自定义编写实现类</li>
+</ul>
+<p>通过配置文件设置<br>application.properties</p>
+<div class="highlight-container" data-rel="Xml"><figure class="iseeu highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server. port=8111</span><br><span class="line">spring. security. user. name=admin</span><br><span class="line">spring.security. user. password=admin</span><br></pre></td></tr></table></figure></div>
+
+<p>通过配置类</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SecurityConfig</span> <span class="keyword">extends</span> <span class="title class_">WebSecurityConfigurerAdapter</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">configure</span><span class="params">(AuthenticationManagerBuilder auth)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">BCryptPasswordEncoder</span> <span class="variable">passwordEncoder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BCryptPasswordEncoder</span>();</span><br><span class="line">        <span class="type">String</span> <span class="variable">password</span> <span class="operator">=</span> passwordEncoder.encode(<span class="string">&quot;123&quot;</span>);</span><br><span class="line">        auth.inMemoryAuthentication().withUser(<span class="string">&quot;lucy&quot;</span>).password(<span class="string">&quot;123&quot;</span>).roles(<span class="string">&quot;admin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    PasswordEncoder <span class="title function_">password</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">BCryptPasswordEncoder</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>自定义实现类设置</p>
+<ol>
+<li>创建配置类，设置使用那个userDetailsService实现类</li>
+<li>编写实现类，返回user对象，user对象有用户名密码和操作权限</li>
+</ol>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SecurityConfigTest</span> <span class="keyword">extends</span> <span class="title class_">WebSecurityConfigurerAdapter</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserDetailsService userDetailsService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">configure</span><span class="params">(AuthenticationManagerBuilder auth)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">       auth.userDetailsService(userDetailsService).passwordEncoder(password());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    PasswordEncoder <span class="title function_">password</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">BCryptPasswordEncoder</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service(&quot;userDetailsService&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyUserDetailsService</span> <span class="keyword">implements</span> <span class="title class_">UserDetailsService</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> UserDetails <span class="title function_">loadUserByUsername</span><span class="params">(String s)</span> <span class="keyword">throws</span> UsernameNotFoundException &#123;</span><br><span class="line">        List&lt;GrantedAuthority&gt; auths = AuthorityUtils.commaSeparatedStringToAuthorityList(<span class="string">&quot;role&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;marry&quot;</span>,<span class="keyword">new</span> <span class="title class_">BCryptPasswordEncoder</span>().encode(<span class="string">&quot;123&quot;</span>),auths);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>过程<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678448256854-6b04a48c-31af-43d8-a2ea-2c6d95c9e732.png#averageHue=%23f7f6f4&clientId=u1a8df95d-cf0a-4&from=ui&id=u3a2ce03a&originHeight=524&originWidth=650&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=150135&status=done&style=none&taskId=u3dab96ba-8dfe-4c64-8930-d7ed6a7da76&title="
+                      alt="image-20230308192411478.png"
+                ><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678448256766-5b54a847-a27f-4471-9441-47bc105243f3.png#averageHue=%23f4f4f3&clientId=u1a8df95d-cf0a-4&from=ui&id=u764eaab9&originHeight=551&originWidth=594&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=91338&status=done&style=none&taskId=ube6a74a5-83ac-476a-81de-5bdec88476a&title="
+                      alt="image-20230308192420472.png"
+                ><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678448257069-48cb9460-76c2-45c9-b525-d05232850130.png#averageHue=%23f9f6f5&clientId=u1a8df95d-cf0a-4&from=ui&id=u7ae3c7dd&originHeight=480&originWidth=1583&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=327479&status=done&style=none&taskId=ud1965895-cd8c-4090-ae89-2d5f6d9eaed&title="
+                      alt="image-20230308192447893.png"
+                ><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678448256808-f9320a8d-4d1b-4ee5-a762-d4dc22a36247.png#averageHue=%23deddcc&clientId=u1a8df95d-cf0a-4&from=ui&id=uff4e1ce4&originHeight=232&originWidth=609&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=84549&status=done&style=none&taskId=u3b091192-7139-4957-8efe-1b08aae99cb&title="
+                      alt="image-20230308192556912.png"
+                ><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678448256992-37842013-632c-4a20-a02f-e7fc7714ac4b.png#averageHue=%238eb273&clientId=u1a8df95d-cf0a-4&from=ui&id=ue6c2d6e8&originHeight=583&originWidth=1548&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=209907&status=done&style=none&taskId=u0a5934ba-8ef3-4103-a95c-3616ea5cab1&title="
+                      alt="image-20230309084704493.png"
+                ></p>
+<h4 id="3-4基于角色或权限进行访问控制"><a href="#3-4基于角色或权限进行访问控制" class="headerlink" title="3.4基于角色或权限进行访问控制."></a>3.4基于角色或权限进行访问控制.</h4><h5 id="3-4-1-hasAuthority方法"><a href="#3-4-1-hasAuthority方法" class="headerlink" title="3.4.1 hasAuthority方法"></a>3.4.1 hasAuthority方法</h5><p>如果当前的主体具有指定的权限，则返回true,否则返回false.</p>
+<ol>
+<li>在配置类设置当前访问地址又那些</li>
+</ol>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当前登录用户,只有具有admins权限才可以访问这个路徭       .antMatchers(&quot;/test/index&quot;).hasAnyAuthority(&quot;admins&quot;)</span></span><br></pre></td></tr></table></figure></div>
+
+<pre><code>2.在userDetailsService，把返回User对象设置权限
+</code></pre>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;GrantedAuthority&gt; auths = AuthorityUtils.commaSeparatedStringToAuthorityList(<span class="string">&quot;admins&quot;</span>);</span><br></pre></td></tr></table></figure></div>
+
+<h5 id="3-4-2-hasAnyAuthority方法"><a href="#3-4-2-hasAnyAuthority方法" class="headerlink" title="3.4.2 hasAnyAuthority方法"></a>3.4.2 hasAnyAuthority方法</h5><p>如果当前的主体有任何提供的角色（给定的作为一个逗号分隔的字符串列表）的话，返回true.,</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List&lt;GrantedAuthority&gt; auths = AuthorityUtils.commaSeparatedStringToAuthorityList(<span class="string">&quot;admins&quot;</span>);</span><br><span class="line"></span><br><span class="line"> .antMatchers(<span class="string">&quot;/test/index&quot;</span>).hasAnyAuthority(<span class="string">&quot;admins,manager&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<h5 id="3-4-3-hasRole方法"><a href="#3-4-3-hasRole方法" class="headerlink" title="3.4.3 hasRole方法"></a>3.4.3 hasRole方法</h5><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3hasRole方法</span></span><br><span class="line">.antMatchers(<span class="string">&quot;/test/inde&quot;</span>).hasRole(<span class="string">&quot;sale&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<h5 id="3-4-4-hasAnyRole"><a href="#3-4-4-hasAnyRole" class="headerlink" title="3.4.4 hasAnyRole"></a>3.4.4 hasAnyRole</h5><p>表示用户具备任何一个条件都可以访问。给用户添加角色:</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 3hasRole方法</span></span><br><span class="line">.antMatchers(<span class="string">&quot;/test/inde&quot;</span>).hasAnyRole(<span class="string">&quot;sale,Docker&quot;</span>)</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="3-5-修改访问配置类"><a href="#3-5-修改访问配置类" class="headerlink" title="3.5 修改访问配置类."></a>3.5 修改访问配置类.</h4><p>配置没有权限的403页面</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.exceptionHandling().accessDeniedPage( <span class="string">&quot;/unauth.html&quot;</span> );</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="3-6注解使用。"><a href="#3-6注解使用。" class="headerlink" title="3.6注解使用。"></a>3.6注解使用。</h4><h5 id="3-6-1-Secured"><a href="#3-6-1-Secured" class="headerlink" title="3.6.1 @Secured "></a>3.6.1 <a href="/Secured">@Secured </a></h5><p>判断是否具有角色，另外需要注意的是这里匹配的字符串需要添加前缀“ROLE_“。<br>使用注解先要开启注解功能!</p>
+<ol>
+<li>启动类（配置类）开启注解 </li>
+<li><div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableGlobalMethodSecurity(securedEnabled = true)</span></span><br></pre></td></tr></table></figure></div></li>
+</ol>
+<p>2.在控制器方法上面添加注解</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;update&quot;)</span></span><br><span class="line">    <span class="meta">@Secured(&#123;&quot;ROLE_sale&quot;,&quot;ROLE_manager&quot;&#125;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">update</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello update&quot;</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>3.在userDetailsService设置用户角色</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;GrantedAuthority&gt; auths = AuthorityUtils.commaSeparatedStringToAuthorityList(<span class="string">&quot;admins，ROLE_sale&quot;</span>);</span><br></pre></td></tr></table></figure></div>
+
+<h5 id="3-6-2-PreAuthorize"><a href="#3-6-2-PreAuthorize" class="headerlink" title="3.6.2 @PreAuthorize. "></a>3.6.2 <a href="/PreAuthorize.">@PreAuthorize. </a></h5><p>方法之前进行校验</p>
+<p>先开启注解功能:<br><a href="/EnableGlobalMethodsecurity(prePostEnabled">@EnableGlobalMethodsecurity(prePostEnabled </a> &#x3D; true).<br>@PreAuthorize:注解适合进入方法前的权限验证，@PreAuthorize可以将登录用户的roles&#x2F;permissions参数传到方法中。</p>
+<p>1、在启动类开启注解</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled = true)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Securitydemo1Application</span> &#123;&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>2.在controller中配置</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;update&quot;)</span></span><br><span class="line">    <span class="comment">//@Secured(&#123;&quot;ROLE_sale&quot;,&quot;ROLE_manager&quot;&#125;)</span></span><br><span class="line">    <span class="meta">@PreAuthorize(&quot;hasAuthority(&#x27;admins&#x27;)&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">update</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello update&quot;</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></div>
+
+<h5 id="3-6-3-PostAuthorize"><a href="#3-6-3-PostAuthorize" class="headerlink" title="3.6.3 PostAuthorize."></a>3.6.3 PostAuthorize.</h5><p>先开启注解功能∶<br>@EnableGlobalMethodSecurity(securedEnabled&#x3D;true, prePostEnabled &#x3D; true)<br><a href="/PostAuthorize">@PostAuthorize </a> 注解使用并不多，在方法执行后再进行权限验证，适合验证带有返回值的权限 </p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostAuthorize(&quot;hasAnyAuthority(&#x27;admins&#x27;)&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">update</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;update.....&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;hello update&quot;</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>最后两个注解<br><a href="/PostFilter">@PostFilter </a>  方法返回数据进行过滤 </p>
+<p><a href="/PreFilter">@PreFilter </a>    传入方法数据进行过滤 </p>
+<h4 id="3-7-用户注销"><a href="#3-7-用户注销" class="headerlink" title="3.7 用户注销"></a>3.7 用户注销</h4><p>1.在配置类中添加退出的配置</p>
+<div class="highlight-container" data-rel="Java"><figure class="iseeu highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http.logout().logoutUrl(<span class="string">&quot;/logout&quot;</span>).logoutSuccessUrl(<span class="string">&quot;/test/hello&quot;</span>).permitAll();</span><br></pre></td></tr></table></figure></div>
+
+<p>测试：1、修改配置类，登录成功之后跳转到或功页面<br>2、在或功页面添加超链接，写设置退出路径</p>
+<pre><code>        3、登录成功之后，在成功页面点击退出再去访问其他controller不能进行访问的
+</code></pre>
+<h4 id="3-8-记住我"><a href="#3-8-记住我" class="headerlink" title="3.8 记住我"></a>3.8 记住我</h4><p>自动登录</p>
+<p>1.cookie技术</p>
+<p>2.安全框架机制实现自动登录</p>
+<p>一 实现原理<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678449134556-0f96d280-0b6f-4eb8-8139-f959015eab39.png#averageHue=%238eb273&clientId=u02e58226-28d7-4&from=ui&id=VarAX&originHeight=583&originWidth=1548&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=209907&status=done&style=none&taskId=uacd201ef-640b-4e7f-b2ee-136bd80c991&title="
+                      alt="image-20230309084704493.png"
+                ></p>
+<p>二 具体实现</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678449134282-72292ff9-0ede-4525-8c59-1bec6aba1530.png#averageHue=%23f8f4f4&clientId=u02e58226-28d7-4&from=ui&id=LGfp4&originHeight=210&originWidth=257&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=24723&status=done&style=none&taskId=ucd6da145-89f1-4bf1-b863-97ca3ef59f8&title="
+                      alt="image-20230309092133511.png"
+                ><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678449134514-30834775-ee95-4678-bc51-10a3013b3355.png#averageHue=%23f6f3f2&clientId=u02e58226-28d7-4&from=ui&id=hh578&originHeight=268&originWidth=703&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=94437&status=done&style=none&taskId=ubc62cdfd-443e-4be4-8743-362bf1db49e&title="
+                      alt="image-20230309092532683.png"
+                ><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678449134518-5a4504c1-4698-4b35-9950-e5ced787bcc3.png#averageHue=%23f4f3eb&clientId=u02e58226-28d7-4&from=ui&id=Xt9tK&originHeight=162&originWidth=742&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=74765&status=done&style=none&taskId=u996164ab-513f-4412-95e2-7b788de90ad&title="
+                      alt="image-20230309092745262.png"
+                ><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1678449134428-4b54d7e0-12f4-48cc-82ed-fa3a9637f72c.png#averageHue=%23faf7f6&clientId=u02e58226-28d7-4&from=ui&id=yjUrh&originHeight=137&originWidth=580&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=42861&status=done&style=none&taskId=ue8df3686-2924-40ea-a5ba-9e0fab8be56&title="
+                      alt="image-20230309092928438.png"
+                ></p>
+
+            </div>
+
+            
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Spring Security</li>
+        <li><strong>Author:</strong> 清风煮酒</li>
+        <li><strong>Created at:</strong> 2023-08-24 16:56:08</li>
+        
+            <li>
+                <strong>Updated at:</strong> 2023-08-24 16:58:00
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://redefine.ohevan.com/2023/08/24/SpringSecurity安全框架/
+        </li>
+        <li>
+            <strong>License:</strong> This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+        </li>
+    </ul>
+</div>
+
+                </div>
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/spring-security/">#spring security</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/2023/08/24/%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE/"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">数据访问</span>
+                                    <span class="post-nav-item">Prev posts</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/2023/08/24/Hystrix/"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">Hystrix</span>
+                                    <span class="post-nav-item">Next posts</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-pjax>
+        import { init } from 'https://evan.beee.top/js/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">Spring Security</div>
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="nav-text">1,基本原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%BF%87%E6%BB%A4%E5%99%A8%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E5%8A%A0%E8%BD%BD%E7%9A%84"><span class="nav-text">2.过滤器如何进行加载的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E8%AE%BE%E7%BD%AE%E7%99%BB%E5%BD%95%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81"><span class="nav-text">3、设置登录的用户名和密码</span></a></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">清风煮酒</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        VISITOR COUNT&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        TOTAL PAGE VIEWS&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a></span>
+                <br>
+            <span class="theme-version-container">THEME&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.1.2</a>
+        </div>
+        
+        
+        
+            <div id="start_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/navbarShrink.js"></script>
+
+<script src="/js/tools/scrollTopBottom.js"></script>
+
+<script src="/js/tools/lightDarkSwitch.js"></script>
+
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/tocToggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

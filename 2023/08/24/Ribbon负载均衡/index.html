@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="清风煮酒">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="http://yonina.space/2023/08/24/ribbon负载均衡/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="负载均衡算法: rest接口第几次请求数%服务器集群总数量&#x3D;实际调用服务器位置下标，每次服务重启动后rest接口计数从1开始。 123456789101112@GetMapping(value &#x3D; &quot;&#x2F;payment&#x2F;lb&quot;)     public String getPaymentLB() &amp;#123;         List&lt;ServiceInstance">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ribbon">
+<meta property="og:url" content="http://yonina.space/2023/08/24/Ribbon%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="负载均衡算法: rest接口第几次请求数%服务器集群总数量&#x3D;实际调用服务器位置下标，每次服务重启动后rest接口计数从1开始。 123456789101112@GetMapping(value &#x3D; &quot;&#x2F;payment&#x2F;lb&quot;)     public String getPaymentLB() &amp;#123;         List&lt;ServiceInstance">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1679584848042-33633b0d-957d-4c2c-af64-bbadb827a806.png#averageHue=%23fdfefb&clientId=u2072fbd7-2698-4&from=paste&id=u5b8cfdd5&originHeight=914&originWidth=1618&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=uf8c36fd0-79b9-4159-837b-2083ed1a1ba&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1679584848008-c1f55907-c1ee-4435-bd7a-d51b9bf00676.png#averageHue=%23e9e2e1&clientId=u2072fbd7-2698-4&from=paste&id=u6e32bce8&originHeight=269&originWidth=629&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=u4c3599e7-8491-414d-970c-f0da492a133&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1679584848011-c67c38d2-c563-4ac5-95ad-275d063ffb27.png#averageHue=%23f6f5e0&clientId=u2072fbd7-2698-4&from=paste&id=u3e80c754&originHeight=88&originWidth=654&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=ue55fb6df-b7e4-42f1-b5c1-a1f86d084b3&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1679584848032-a83bc6b2-3809-49ce-9938-816000df3a7c.png#averageHue=%23f6f6f6&clientId=u2072fbd7-2698-4&from=paste&id=udae41157&originHeight=600&originWidth=2312&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=u9590ef89-369b-4dc7-95f6-bd0c1657b13&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1679584848032-891c940c-bc7e-416e-b900-66898fc9914e.png#averageHue=%23efece6&clientId=u2072fbd7-2698-4&from=paste&id=ufcf3ea69&originHeight=956&originWidth=1876&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=uf510ac68-6798-43dc-a868-5bf0984b725&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1679584848379-11a34b54-499a-4ab5-ab7e-6ac97ca37587.png#averageHue=%23f7f5f5&clientId=u2072fbd7-2698-4&from=paste&id=u2d150c11&originHeight=307&originWidth=429&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=u38389bc5-705e-4eae-a24b-6947d1cb8ef&title=">
+<meta property="article:published_time" content="2023-08-24T08:55:03.717Z">
+<meta property="article:modified_time" content="2023-08-24T08:57:48.222Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Ribbon">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/34895783/1679584848042-33633b0d-957d-4c2c-af64-bbadb827a806.png#averageHue=%23fdfefb&clientId=u2072fbd7-2698-4&from=paste&id=u5b8cfdd5&originHeight=914&originWidth=1618&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=uf8c36fd0-79b9-4159-837b-2083ed1a1ba&title=">
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/lm.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/lm.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/images/lm.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Ribbon -
+        
+        清风煮酒
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+<link rel="stylesheet" href="/assets/fonts.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"yonina.space","root":"/","language":"en"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[""]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true},"home_banner":{"enable":true,"image":{"light":"https://i.hd-r.cn/18a445cb91f22f6086a9393f719fba17.jpg","dark":"https://i.hd-r.cn/18a445cb91f22f6086a9393f719fba17.jpg"},"title":"welcome to 子羽 and Yonina's Family","subtitle":{"text":["我坚信，失败后的第一个黎明，就是争取胜利的新开始.","忘掉失败，不过要牢记失败中的教训.","我怕输，所以我从不敢放弃.","奋斗吧，改变不了起点但可以改变终点.","不是井里没有水，而是挖的不够深。不是成功来得慢，而是努力的不够狠.","不管梦想是什么，只有带着淡然的态度，做好当前的事情，才能如愿以偿.","抬头与低头，是人生的两种姿态。抬头需要底气，低头需要勇气","当你感觉到难的时候，就是你在进步的时候；机械、重复的工作是最低效的成长；而逼自己去做难的事，你没干过的事，就能大大提升你的潜力","人的一生不可能一帆风顺,而正是由于有了一些困难和挫折,我们的人 生才会有意义"],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"links":{"github":"https://github.com/wjpwudi/blog","instagram":null,"zhihu":null,"twitter":null,"email":"2806109090@qq.com# your email","YUQUE":"https://www.yuque.com/wangjinpeng-jlws0/dyk7c7"}},"style":"static"},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.1.2","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":30},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"分类":{"path":"/categories/","icon":"fa-solid fa-robot"},"标签":{"path":"/tags/","icon":"fa-duotone fa-book"},"友链":{"path":"/links/","icon":"fa-solid fa-link"},"关于":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/wjpwudi/blog","Gitee":"https://gitee.com/wjpwudi/myblog","Yuque":"https://www.yuque.com/wangjinpeng-jlws0/dyk7c7"}}},"search":{"enable":false,"preload":true},"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}}};
+    Global.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                清风煮酒
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/categories/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-robot"></i>
+                                        
+                                        分类
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/tags/"  >
+                                    
+                                        
+                                            <i class="fa-duotone fa-book"></i>
+                                        
+                                        标签
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/links/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-link"></i>
+                                        
+                                        友链
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        关于&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/wjpwudi/blog">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://gitee.com/wjpwudi/myblog">GITEE
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://www.yuque.com/wangjinpeng-jlws0/dyk7c7">YUQUE
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/categories/"  >
+                             
+                                
+                                    <i class="fa-solid fa-robot"></i>
+                                
+                                分类
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/tags/"  >
+                             
+                                
+                                    <i class="fa-duotone fa-book"></i>
+                                
+                                标签
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/links/"  >
+                             
+                                
+                                    <i class="fa-solid fa-link"></i>
+                                
+                                友链
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                关于&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/wjpwudi/blog">GITHUB</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://gitee.com/wjpwudi/myblog">GITEE</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://www.yuque.com/wangjinpeng-jlws0/dyk7c7">YUQUE</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">Ribbon</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="https://img2.baidu.com/it/u=3556369831,3766649660&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=499">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">清风煮酒</span>
+                            
+                                <span class="author-label"></span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-08-24 16:55:03</span>
+        <span class="mobile">2023-08-24 16:55</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-08-24 16:57:48</span>
+            <span class="mobile">2023-08-24 16:57</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/cloud/">cloud</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Ribbon/">Ribbon</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <p><strong>负载均衡算法: rest接口第几次请求数%服务器集群总数量&#x3D;实际调用服务器位置下标，每次服务重启动后rest接口计数从1开始。</strong></p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@GetMapping(value = &quot;/payment/lb&quot;)</span><br><span class="line">     public String getPaymentLB() &#123;</span><br><span class="line">         List&lt;ServiceInstance&gt; instances = discoveryClient.getInstances(&quot;CLOUD-PAYMENT-SERVICE&quot;);</span><br><span class="line"> </span><br><span class="line">         if (instances == null || instances.isEmpty()) &#123;</span><br><span class="line">             return null;</span><br><span class="line">         &#125;</span><br><span class="line"> </span><br><span class="line">         // 调用自定义的负载均衡策略</span><br><span class="line">         ServiceInstance serviceInstance = myLoadBalancer.instances(instances);</span><br><span class="line">         URI uri = serviceInstance.getUri();</span><br><span class="line">         return restTemplate.getForObject(uri + &quot;/payment/lb&quot;, String.class);</span><br></pre></td></tr></table></figure></div>
+<p>Spring Cloud Ribbon是基于Netflix Ribbon实现的一套客户端 负载均衡的工具<br>简单的说，Ribbon是Netflix发布的开源项目，主要功能是提供客户端的软件负载均衡算法和服务调用。Ribbon客户端组件提供一系列完善的配置项如连接超时，重试等。简单的说，就是在配置文件中列出Load Balancer (简称LB) 后面所有的机器，Ribbon 会自动帮助你基于某种规则（如 简单轮询，随机连接等 ）去连接这些机器。我们容易使用Ribbon 实现自定义负载均衡的算法<br>负载均衡1.什么是负载均衡<br>Load balancing，即负载均衡，是一种计算机技术，用来在多个计算机（计算机集群）、网络连接、CPU、磁盘驱动器或其他资源中分配负载，以达到最优化资源使用、最大化吞吐率、最小化响应时间、同时避免过载的目的。常见的负载均衡有软件：Nginx ，LVS 硬件 F5等<br>2.为什么需要负载均衡<br>我们在日常生活中经常免不了要去一些比较拥挤的地方，比如地铁站、火车站、电影院、银行等。无论是买票，还是排队入场，这些场所一般都会设置多个服务点或者入口的。如果没有人引导的话，大多数情况下，最近的入口会挤满人。而哪些距离较远的服务点或者入口就宽松很多。<br>3 Ribbon 负载客户端 VS Nginx服务端负载均衡区别<br>Nginx 是服务器负载均衡，客户端所有的请求都会交给nginx ，然后由nginx实现转发请求。即负载均衡是由服务端实现的<br>Ribbon本地负载均衡，在调用微服务接口的时候，会在注册中心上获取服务列表之后缓存到JVM本地，从而本地实现RPC远程待哦用的技术<br><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1679584848042-33633b0d-957d-4c2c-af64-bbadb827a806.png#averageHue=%23fdfefb&clientId=u2072fbd7-2698-4&from=paste&id=u5b8cfdd5&originHeight=914&originWidth=1618&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=uf8c36fd0-79b9-4159-837b-2083ed1a1ba&title="
+                     
+                ><br>Ribbon 在工作时分成两步<br>第一步先选择EurekaServer , 它优先选择在同一区域内负载较少的Server。<br>第二步在根据用户指定的策略，它从server取到的服务注册列表中选择一个地址。其中Ribbon提供了多种策略：比如轮询、随机和根据响应时间加权。<br>在我们新版的 netflix-eureka-client 中已经集成了Ribbon<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1679584848008-c1f55907-c1ee-4435-bd7a-d51b9bf00676.png#averageHue=%23e9e2e1&clientId=u2072fbd7-2698-4&from=paste&id=u6e32bce8&originHeight=269&originWidth=629&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=u4c3599e7-8491-414d-970c-f0da492a133&title="
+                     
+                ></p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- eureka-client --&gt;</span><br><span class="line">         &lt;dependency&gt;</span><br><span class="line">             &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">             &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;</span><br><span class="line">         &lt;/dependency&gt;</span><br></pre></td></tr></table></figure></div>
+<p>Ribbon核心组件IRUle<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1679584848011-c67c38d2-c563-4ac5-95ad-275d063ffb27.png#averageHue=%23f6f5e0&clientId=u2072fbd7-2698-4&from=paste&id=u3e80c754&originHeight=88&originWidth=654&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=ue55fb6df-b7e4-42f1-b5c1-a1f86d084b3&title="
+                     
+                ><br>他是一个接口</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line"> // Source code recreated from a .class file by IntelliJ IDEA</span><br><span class="line"> // (powered by Fernflower decompiler)</span><br><span class="line"> //</span><br><span class="line"> </span><br><span class="line"> package com.netflix.loadbalancer;</span><br><span class="line"> </span><br><span class="line"> public interface IRule &#123;</span><br><span class="line">     Server choose(Object var1);</span><br><span class="line"> void setLoadBalancer(ILoadBalancer var1);</span><br><span class="line"> </span><br><span class="line"> ILoadBalancer getLoadBalancer();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></div>
+<p>Ribbon 常见的负载算法：<br>默认为RoundRobinRule轮询。<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1679584848032-a83bc6b2-3809-49ce-9938-816000df3a7c.png#averageHue=%23f6f6f6&clientId=u2072fbd7-2698-4&from=paste&id=udae41157&originHeight=600&originWidth=2312&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=u9590ef89-369b-4dc7-95f6-bd0c1657b13&title="
+                     
+                ><br>替换Ribbon负载算法<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1679584848032-891c940c-bc7e-416e-b900-66898fc9914e.png#averageHue=%23efece6&clientId=u2072fbd7-2698-4&from=paste&id=ufcf3ea69&originHeight=956&originWidth=1876&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=uf510ac68-6798-43dc-a868-5bf0984b725&title="
+                     
+                ><br>Ribbon的自定义配置类不可以放在@ComponentScan所扫描的当前包下以及子包下，否则这个自定义配置类就会被所有的Ribbon客户端共享，达不到为指定的Ribbon定制配置，而@SpringBootApplication注解里就有@ComponentScan注解，所以不可以放在主启动类所在的包下。（因为Ribbon是客户端（消费者）这边的，所以Ribbon的自定义配置类是在客户端（消费者）添加，不需要在提供者或注册中心添加）<br>1.新建包Ribbon <strong>不能和启动类在一个包</strong><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.nlark.com/yuque/0/2023/png/34895783/1679584848379-11a34b54-499a-4ab5-ab7e-6ac97ca37587.png#averageHue=%23f7f5f5&clientId=u2072fbd7-2698-4&from=paste&id=u2d150c11&originHeight=307&originWidth=429&originalType=url&ratio=1&rotation=0&showTitle=false&status=done&style=none&taskId=u38389bc5-705e-4eae-a24b-6947d1cb8ef&title="
+                     
+                ></p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">package com.yxl.ribbon;</span><br><span class="line"> </span><br><span class="line"> import com.netflix.loadbalancer.IRule;</span><br><span class="line"> import com.netflix.loadbalancer.RandomRule;</span><br><span class="line"> import org.springframework.context.annotation.Bean;</span><br><span class="line"> import org.springframework.context.annotation.Configuration;</span><br><span class="line"> </span><br><span class="line"> @Configuration</span><br><span class="line"> public class MySelfRule &#123;</span><br><span class="line"> @Bean</span><br><span class="line"> public IRule myRule()&#123;</span><br><span class="line">     return new RandomRule();    //负载均衡机制改为随机</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></div>
+<p>2.在启动类加入注解<br> @RibbonClient(name &#x3D; “CLOUD-PAYMENT-SERVICE”, configuration &#x3D; MySelfRule.class)</p>
+<ul>
+<li>name为指定的服务名（服务名必须与注册中心显示的服务名大小写一致）</li>
+<li>configuration为指定服务使用自定义配置（自定义负载均衡机制）Ribbon负载均衡算法原理<ul>
+<li>负载均衡算法：rest 接口第几次请求数 % 服务器集群总数量 &#x3D; 世纪调用服务器位置下标，每次服务器重启后 rest接口计数从 1 开始</li>
+<li>如： List [0] instances &#x3D; 127.0.0.1:8001 List [1] instances &#x3D; 127.0.0.1:8002</li>
+<li>8001 + 8002 组合成为集群，他们共计2台机器，集群总数为2，按照轮询算法原理 ：</li>
+</ul>
+</li>
+</ul>
+<p>当请求数为1时： 1%2&#x3D;1 对应下标1 则请求 8002 机器当请求数为1时： 2%2&#x3D;0 对应下标0 则请求 8001 机器当请求数为1时： 3%2&#x3D;1 对应下标1 则请求 8002 机器当请求数为1时： 4%2&#x3D;0 对应下标0 则请求 8001 机器如此类推…<br>RoundRobinRule源码</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">  *</span><br><span class="line">  *Copyright 2013 Netflix, Inc.</span><br><span class="line">  *Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span><br><span class="line">  *you may not use this file except in compliance with the License.</span><br><span class="line">  *You may obtain a copy of the License at</span><br><span class="line">  *http://www.apache.org/licenses/LICENSE-2.0</span><br><span class="line">  *Unless required by applicable law or agreed to in writing, software</span><br><span class="line">  *distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span><br><span class="line">  *WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span><br><span class="line">  *See the License for the specific language governing permissions and</span><br><span class="line">  *limitations under the License.</span><br><span class="line">  */</span><br><span class="line"> package com.netflix.loadbalancer;</span><br><span class="line"> </span><br><span class="line"> import com.netflix.client.config.IClientConfig;</span><br><span class="line"> import org.slf4j.Logger;</span><br><span class="line"> import org.slf4j.LoggerFactory;</span><br><span class="line"> </span><br><span class="line"> import java.util.List;</span><br><span class="line"> import java.util.concurrent.atomic.AtomicInteger;</span><br><span class="line"> </span><br><span class="line"> /**</span><br><span class="line">  * The most well known and basic load balancing strategy, i.e. Round Robin Rule.</span><br><span class="line">  * @author stonse</span><br><span class="line">  * @author Nikos Michalakis &lt;nikos@netflix.com&gt;</span><br><span class="line">  *</span><br><span class="line">  */</span><br><span class="line">     //继承 AbstractLoadBalancerRule</span><br><span class="line">    public class RoundRobinRule extends AbstractLoadBalancerRule &#123;</span><br><span class="line"> </span><br><span class="line">    private AtomicInteger nextServerCyclicCounter;</span><br><span class="line">    private static final boolean AVAILABLE_ONLY_SERVERS = true;</span><br><span class="line">    private static final boolean ALL_SERVERS = false;</span><br><span class="line"> </span><br><span class="line">    private static Logger log = LoggerFactory.getLogger(RoundRobinRule.class);</span><br><span class="line"> </span><br><span class="line">    public RoundRobinRule() &#123;</span><br><span class="line">    // 初始化AtomicInteger 原子类 0</span><br><span class="line">        nextServerCyclicCounter = new AtomicInteger(0);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public RoundRobinRule(ILoadBalancer lb) &#123;</span><br><span class="line">        this();</span><br><span class="line">        setLoadBalancer(lb);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    public Server choose(ILoadBalancer lb, Object key) &#123;</span><br><span class="line">    //判断传来的负载是否为 null</span><br><span class="line">        if (lb == null) &#123;</span><br><span class="line">            log.warn(&quot;no load balancer&quot;);</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line"> Server server = null;</span><br><span class="line"> int count = 0;</span><br><span class="line"> //满足条件</span><br><span class="line"> while (server == null &amp;&amp; count++ &lt; 10) &#123;</span><br><span class="line"> //只有已启动且可访问的服务器</span><br><span class="line">     List&lt;Server&gt; reachableServers = lb.getReachableServers();</span><br><span class="line">     //获取所有的服务器</span><br><span class="line">     List&lt;Server&gt; allServers = lb.getAllServers();</span><br><span class="line">     //长度</span><br><span class="line">     int upCount = reachableServers.size();</span><br><span class="line">     int serverCount = allServers.size();</span><br><span class="line">   // 如果等于 0 return</span><br><span class="line">     if ((upCount == 0) || (serverCount == 0)) &#123;</span><br><span class="line">         log.warn(&quot;No up servers available from load balancer: &quot; + lb);</span><br><span class="line">         return null;</span><br><span class="line">     &#125;</span><br><span class="line"> //取余操作</span><br><span class="line">         int nextServerIndex = incrementAndGetModulo(serverCount);</span><br><span class="line">         //获取下标</span><br><span class="line">         server = allServers.get(nextServerIndex);</span><br><span class="line">     //如果server ==null 设置优先级</span><br><span class="line">         if (server == null) &#123;</span><br><span class="line">             /* Transient. */</span><br><span class="line">             Thread.yield();</span><br><span class="line">             //结束本次循环 继续下次循环</span><br><span class="line">             continue;</span><br><span class="line">         &#125;</span><br><span class="line"> if (server.isAlive() &amp;&amp; (server.isReadyToServe())) &#123;</span><br><span class="line">         return (server);</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br><span class="line">     // Next.</span><br><span class="line">     server = null;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> if (count &gt;= 10) &#123;</span><br><span class="line">     log.warn(&quot;No available alive servers after 10 tries from load balancer: &quot;</span><br><span class="line">             + lb);</span><br><span class="line"> &#125;</span><br><span class="line"> return server;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> /**</span><br><span class="line"> </span><br><span class="line">  * Inspired by the implementation of &#123;@link AtomicInteger#incrementAndGet()&#125;.</span><br><span class="line">    *</span><br><span class="line">  * @param modulo The modulo to bound the value of the counter.</span><br><span class="line">  * @return The next value.</span><br><span class="line">    */</span><br><span class="line">    private int incrementAndGetModulo(int modulo) &#123;</span><br><span class="line">    for (;;) &#123;</span><br><span class="line">        int current = nextServerCyclicCounter.get();</span><br><span class="line">        int next = (current + 1) % modulo;</span><br><span class="line">        if (nextServerCyclicCounter.compareAndSet(current, next))</span><br><span class="line">            return next;</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"> @Override</span><br><span class="line"> public Server choose(Object key) &#123;</span><br><span class="line">     return choose(getLoadBalancer(), key);</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> @Override</span><br><span class="line"> public void initWithNiwsConfig(IClientConfig clientConfig) &#123;</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></div>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">private int incrementAndGetModulo(int modulo) &#123;</span><br><span class="line">       //CAS加自旋锁</span><br><span class="line">       //CAS（Conmpare And Swap）：是用于实现多线程同步的原子指令。CAS机制当中使用了3个基本操作数：内存地址V，旧的预期值A，要修改的新值B。更新一个变量的时候，只有当变量的预期值A和内存地址V当中的实际值相同时，才会将内存地址V对应的值修改为B。</span><br><span class="line">       //自旋锁：是指当一个线程在获取锁的时候，如果锁已经被其它线程获取，那么该线程将循环等待，然后不断的判断锁是否能够被成功获取，直到获取到锁才会退出循环。 </span><br><span class="line">         for (;;) &#123;</span><br><span class="line">           //获取value，即0</span><br><span class="line">             int current = nextServerCyclicCounter.get();</span><br><span class="line">             //取余，为1</span><br><span class="line">             int next = (current + 1) % modulo;</span><br><span class="line">             //进行CAS判断，如果此时在value的内存地址中，如果value和current相同，则为true，返回next的值，否则就一直循环，直到结果为true</span><br><span class="line">             if (nextServerCyclicCounter.compareAndSet(current, next))</span><br><span class="line">                 return next;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure></div>
+<p>AtomicInteger的compareAndSet方法：</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class AtomicInteger extends Number implements java.io.Serializable &#123;</span><br><span class="line">   ...</span><br><span class="line">     public final boolean compareAndSet(int expect, int update) &#123;</span><br><span class="line">         return unsafe.compareAndSwapInt(this, valueOffset, expect, update);</span><br><span class="line">     &#125;</span><br><span class="line">     ...</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></div>
+<p><strong>OpenFeign服务接口调用</strong> 服务接口绑定器<br>Feign是一个声明式WebService客户端。使用Feign能让编写Web Service客户端更加简单。它的使用方法是定义一个服务接口然后在上面添加注解。Feign也支持可拔插式的编码器和解码器。Spring Cloud对Feign进行了封装，使其支持了Spring MVC标准注解和HttpMessageConverters。<br>Feign可以与Eureka和Ribbon组合使用以支持负载均衡<br>Feign能干什么Feign旨在使编写Java Http客户端变得更容易。前面在使用Ribbon+RestTemplate时，利用RestTemplate对http请求的封装处理，形成了一套模版化的调用方法。但是在实际开发中，由于对服务依赖的调用可能不止一处，<strong>往往一个接口会被多处调用，所以通常都会针对每个微服务自行封装一些客户端类来包装这些依赖服务的调用。</strong>所以，Feign在此基础上做了进一步封装，由他来帮助我们定义和实现依赖服务接口的定义。<br>在Feign的实现下，<strong>我们只需创建一个接口并使用注解的方式来配置它(以前是Dao接口上面标注Mapper注解,现在是一个微服务接口上面标注一个Feign注解即可)<strong>，即可完成对服务提供方的接口绑定，简化了使用Spring cloud Ribbon时，自动封装服务调用客户端的开发量。<br>Feign集成了Ribbon利用Ribbon维护了Payment的服务列表信息，并且通过轮询实现了客户端的负载均衡。而与Ribbon不同的是，</strong>通过feign只需要定义服务绑定接口且以声明式的方法</strong>，优雅而简单的实现了服务调用</p>
+<div class="highlight-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">   &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;</span><br><span class="line"> &lt;/dependency&gt;</span><br></pre></td></tr></table></figure></div>
+<p>NONE:默认的，不显示任何日志;BASIC:仅记录请求方法、URL、响应状态码及执行时间;HEADERS:除了BASIC中定义的信息之外，还有请求和响应的头信息;FULL:除了HEADERS中定义的信息之外，还有请求和响应的正文及元数据。</p>
+
+            </div>
+
+            
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Ribbon</li>
+        <li><strong>Author:</strong> 清风煮酒</li>
+        <li><strong>Created at:</strong> 2023-08-24 16:55:03</li>
+        
+            <li>
+                <strong>Updated at:</strong> 2023-08-24 16:57:48
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://redefine.ohevan.com/2023/08/24/Ribbon负载均衡/
+        </li>
+        <li>
+            <strong>License:</strong> This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+        </li>
+    </ul>
+</div>
+
+                </div>
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/tags/Ribbon/">#Ribbon</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/2023/08/24/Hystrix/"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">Hystrix</span>
+                                    <span class="post-nav-item">Prev posts</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/2023/08/24/java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">java基础知识</span>
+                                    <span class="post-nav-item">Next posts</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-pjax>
+        import { init } from 'https://evan.beee.top/js/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">Ribbon</div>
+        
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">清风煮酒</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        VISITOR COUNT&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        TOTAL PAGE VIEWS&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a></span>
+                <br>
+            <span class="theme-version-container">THEME&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.1.2</a>
+        </div>
+        
+        
+        
+            <div id="start_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/layouts/navbarShrink.js"></script>
+
+<script src="/js/tools/scrollTopBottom.js"></script>
+
+<script src="/js/tools/lightDarkSwitch.js"></script>
+
+
+
+
+
+    
+<script src="/js/tools/codeBlock.js"></script>
+
+
+
+
+    
+<script src="/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/js/tools/runtime.js"></script>
+
+    
+<script src="/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/js/libs/Typed.min.js"></script>
+
+  
+<script src="/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/js/tools/tocToggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/layouts/toc.js"></script>
+
+<script src="/js/plugins/tabs.js"></script>
+
+    
+</div>
+
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>
