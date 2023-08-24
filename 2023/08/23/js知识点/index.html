@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hexo Theme Redefine">
+    
+    <meta name="author" content="清风煮酒">
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://wjpwudi.gitee.io/myblog/2023/08/23/js知识点/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+        <meta name="description" content="js进阶知识点1.以Var还可以一次声明多个变量，变量之间用”,”逗号隔开。 2.操作符之间的优先级（高到低）:算术操作符 → 比较操作符 → 逻辑操作符 → “&#x3D;”赋值符号 \3. 定义数组var 数组名&#x3D;new Array(可选写长度);.创建的新数组是空数组，没有值，如输出，则显示undefined。   虽然创建数组时，指定了长度，但实际上数组都是变长的，也就是说即使指">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js进阶知识点">
+<meta property="og:url" content="https://wjpwudi.gitee.io/myblog/2023/08/23/js%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="js进阶知识点1.以Var还可以一次声明多个变量，变量之间用”,”逗号隔开。 2.操作符之间的优先级（高到低）:算术操作符 → 比较操作符 → 逻辑操作符 → “&#x3D;”赋值符号 \3. 定义数组var 数组名&#x3D;new Array(可选写长度);.创建的新数组是空数组，没有值，如输出，则显示undefined。   虽然创建数组时，指定了长度，但实际上数组都是变长的，也就是说即使指">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190112151926458.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTYwNzM5,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190112152223385.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTYwNzM5,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190112152241125.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTYwNzM5,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190112152342862.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTYwNzM5,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190112152450830.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTYwNzM5,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190112152531199.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190112152600759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTYwNzM5,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190112152635344.png">
+<meta property="article:published_time" content="2023-08-23T02:30:21.083Z">
+<meta property="article:modified_time" content="2023-08-23T02:30:21.083Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="JS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190112151926458.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTYwNzM5,size_16,color_FFFFFF,t_70">
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/myblog/images/lm.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/myblog/images/lm.png">
+    <meta name="theme-color" content="#A31F34">
+    <link rel="shortcut icon" href="/myblog/myblog/images/lm.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            js进阶知识点 -
+        
+        清风煮酒
+    </title>
+    
+<link rel="stylesheet" href="/myblog/css/style.css">
+
+    
+<link rel="stylesheet" href="/myblog/assets/fonts.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+
+    <!--- Inject Part-->
+    
+    <script id="hexo-configurations">
+    let Global = window.Global || {};
+    Global.hexo_config = {"hostname":"wjpwudi.gitee.io","root":"/myblog/","language":"en"};
+    Global.theme_config = {"articles":{"style":{"font_size":"16px","line_height":1.5,"image_border_radius":"14px","image_alignment":"center","image_caption":false,"link_icon":true},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":true,"auto":false,"list":[""]},"code_block":{"copy":true,"style":"mac","font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":true,"lazyload":true,"recommendation":{"enable":false,"title":"推荐阅读","limit":3,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#A31F34","secondary":null},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null}},"content_max_width":"1000px","sidebar_width":"210px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"busuanzi_counter":{"enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"pjax":true,"open_graph":true},"home_banner":{"enable":true,"image":{"light":"https://i.hd-r.cn/18a445cb91f22f6086a9393f719fba17.jpg","dark":"https://i.hd-r.cn/18a445cb91f22f6086a9393f719fba17.jpg"},"title":"welcome to 子羽 and Yonina's Family","subtitle":{"text":["我坚信，失败后的第一个黎明，就是争取胜利的新开始.","忘掉失败，不过要牢记失败中的教训.","我怕输，所以我从不敢放弃.","奋斗吧，改变不了起点但可以改变终点.","不是井里没有水，而是挖的不够深。不是成功来得慢，而是努力的不够狠."],"hitokoto":{"enable":false,"api":"https://v1.hitokoto.cn"},"typing_speed":100,"backing_speed":80,"starting_delay":500,"backing_delay":1500,"loop":true,"smart_backspace":true},"text_color":{"light":"#fff","dark":"#d1d1b6"},"text_style":{"title_size":"2.8rem","subtitle_size":"1.5rem","line_height":1.2},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":false,"links":{"github":null,"instagram":null,"zhihu":null,"twitter":null,"email":null}},"style":"static"},"plugins":{"feed":{"enable":false},"aplayer":{"enable":false,"type":"fixed","audios":[{"name":null,"artist":null,"url":null,"cover":null}]},"mermaid":{"enable":false,"version":"9.3.0"}},"version":"2.1.2","navbar":{"auto_hide":false,"color":{"left":"#f78736","right":"#367df7","transparency":30},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"分类":{"path":"/categories/","icon":"fa-solid fa-robot"},"标签":{"path":"/tags/","icon":"fa-duotone fa-book"},"友链":{"path":"/links/","icon":"fa-solid fa-link"},"关于":{"icon":"fa-regular fa-user","submenus":{"Me":"/about","Github":"https://github.com/wjpwudi/blog"}}},"search":{"enable":false,"preload":true},"tags":{"Tags":{"icon":"fa-solid fa-tags","path":"/tags/"}},"categories":{"Categories":{"icon":"fa-solid fa-folder","path":"/categories/"}}},"page_templates":{"friends_column":2,"tags_style":"blur"},"home":{"sidebar":{"enable":true,"position":"left","first_item":"menu","announcement":null,"links":null},"article_date_format":"auto","categories":{"enable":true,"limit":3},"tags":{"enable":true,"limit":3}}};
+    Global.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/myblog/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/myblog/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/myblog/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/myblog/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <span class="pjax-progress-icon">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+        </span>
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="main-content-container">
+
+        <div class="main-content-header">
+            <header class="navbar-container">
+    
+    <div class="navbar-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                清风煮酒
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/myblog/"  >
+                                    
+                                        
+                                            <i class="fa-regular fa-house"></i>
+                                        
+                                        HOME
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/myblog/categories/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-robot"></i>
+                                        
+                                        分类
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/myblog/tags/"  >
+                                    
+                                        
+                                            <i class="fa-duotone fa-book"></i>
+                                        
+                                        标签
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" 
+                                    href="/myblog/links/"  >
+                                    
+                                        
+                                            <i class="fa-solid fa-link"></i>
+                                        
+                                        友链
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="has-dropdown" 
+                                    href="#" onClick="return false;">
+                                    
+                                        
+                                            <i class="fa-regular fa-user"></i>
+                                        
+                                        关于&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                                    
+                                </a>
+                                <!-- Submenu -->
+                                
+                                    <ul class="sub-menu">
+                                    
+                                        <li>
+                                        <a href="/myblog/about">ME
+                                        </a>
+                                        </li>
+                                    
+                                        <li>
+                                        <a target="_blank" rel="noopener" href="https://github.com/wjpwudi/blog">GITHUB
+                                        </a>
+                                        </li>
+                                    
+                                    </ul>
+                                
+                            </li>
+                    
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="navbar-drawer">
+        <ul class="drawer-navbar-list">
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/myblog/"  >
+                             
+                                
+                                    <i class="fa-regular fa-house"></i>
+                                
+                                HOME
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/myblog/categories/"  >
+                             
+                                
+                                    <i class="fa-solid fa-robot"></i>
+                                
+                                分类
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/myblog/tags/"  >
+                             
+                                
+                                    <i class="fa-duotone fa-book"></i>
+                                
+                                标签
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="" 
+                        href="/myblog/links/"  >
+                             
+                                
+                                    <i class="fa-solid fa-link"></i>
+                                
+                                友链
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                    
+            
+                
+                    <li class="drawer-navbar-item flex-center">
+                        <a class="has-dropdown" 
+                        href="#" onClick="return false;">
+                            
+                                
+                                    <i class="fa-regular fa-user"></i>
+                                
+                                关于&nbsp;<i class="fa-solid fa-chevron-down"></i>
+                            
+                        </a>
+                    </li>
+                    <!-- Submenu -->
+                              
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" href="/myblog/about">ME</a>
+                            </li>
+                        
+                            <li class="dropdown-item flex-center">
+                                <a class="dropdown-item" target="_blank" rel="noopener" href="https://github.com/wjpwudi/blog">GITHUB</a>
+                            </li>
+                        
+                    
+            
+
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="main-content-body">
+
+            
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            
+            
+                <div class="article-title">
+                    <h1 class="article-title-regular">js进阶知识点</h1>
+                </div>
+            
+                
+            
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="https://img2.baidu.com/it/u=3556369831,3766649660&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=499">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">清风煮酒</span>
+                            
+                                <span class="author-label"></span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-08-23 10:30:21</span>
+        <span class="mobile">2023-08-23 10:30</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-08-23 10:30:21</span>
+            <span class="mobile">2023-08-23 10:30</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/myblog/categories/JS/">JS</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/myblog/tags/JS/">JS</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content markdown-body">
+                <h1 id="js进阶知识点"><a href="#js进阶知识点" class="headerlink" title="js进阶知识点"></a>js进阶知识点</h1><p>1.以Var还可以一次声明多个变量，变量之间用”,”逗号隔开。</p>
+<p>2.操作符之间的优先级（高到低）:算术操作符 → 比较操作符 → 逻辑操作符 → “&#x3D;”赋值符号</p>
+<p>\3. 定义数组var 数组名&#x3D;new Array(可选写长度);.创建的新数组是空数组，没有值，如输出，则显示undefined。  </p>
+<p>虽然创建数组时，指定了长度，但实际上数组都是变长的，也就是说即使指定了长度为8，仍然可以将元素存储在规定长度以外。不会发生溢出现象。</p>
+<p>4.var myarray &#x3D; new Array(66,80,90,77,59);&#x2F;&#x2F;创建数组同时赋值  var myarray &#x3D; [66,80,90,77,59];&#x2F;&#x2F;直接输入一个数组</p>
+<p>5.数组名.length; &#x2F;&#x2F;获得数组myarray的长度  JavaScript数组的length属性是可变的  数组随元素的增加，长度也会改变</p>
+<p>6.二维数组的定义方法var Myarr &#x3D; [  [0 , 1 , 2 ],[1 , 2 , 3]  ]   myarr[行][列]</p>
+<p>或var myarr&#x3D;new Array(); &#x2F;&#x2F;先声明一维 for(var i&#x3D;0;i&lt;2;i++){ &#x2F;&#x2F;一维长度为2 myarr[i]&#x3D;new Array(); &#x2F;&#x2F;再声明二维 for(var j&#x3D;0;j&lt;3;j++){ &#x2F;&#x2F;二维长度为3 myarr[i][j]&#x3D;i+j; &#x2F;&#x2F; 赋值，每个数组元素的值为i+j } }</p>
+<p>7.多种选择switch(表达式) { case值1: 执行代码块 1 break; case值2: 执行代码块 2 break; … case值n: 执行代码块 n break; default:  }  </p>
+<p>Switch必须赋初始值，值与每个case值匹配。满足执行该 case 后的所有语句，并用break语句来阻止运行下一个case。如所有case值都不匹配，执行default后的语句。</p>
+<p>8.在while、for、do…while、while循环中使用break语句退出当前循环，直接执行后面的代码。continue的作用是仅仅跳过本次循环，而整个循环体继续执行。</p>
+<p>9.什么时候使用变量什么时候声明var  js &#x3D;&#x3D;值相等   &#x3D;&#x3D;&#x3D;值与类型均相等  return sum; &#x2F;&#x2F;返回函数值,return&#x3D;后面的值叫做返回值。</p>
+<p>10.事件响应，让网页交互。事件名&#x3D;”函数名()”  </p>
+<p>鼠标单击事件，当在网页上单击鼠标时，就会发生onclick事件，同时执行被调用的程序。</p>
+<p>鼠标经过事件，当鼠标移到一个对象上时，该对象就触发onmouseover事件，</p>
+<p>鼠标移开事件，当鼠标移开当前对象时，该对象就触发onmouseout事件，</p>
+<p>聚焦事件，当将光标移到文本框内时，即焦点在文本框内，触发onfocus 事件，</p>
+<p>失焦事件，当光标离开当前获得聚焦对象的时候，触发onblur事件，</p>
+<p>选中事件，当文本框或者文本域中的文字被选中时，触发onselect事件，</p>
+<p>文本框内容改变事件，通过改变文本框的内容来触发onchange事件。</p>
+<p>加载事件，会在页面加载完成后，立即触发onload事件，写在<body>标签内。</p>
+<p>卸载事件，当用户退出页面时（页面关闭、页面刷新等），触发onUnload事件。不同浏览器对onunload事件支持不同。写在<script>里面window.onunload = 事件名;</p>
+<p>11.获取元素的值设置和获取方法为：例：赋值：document.getElementById(“id”）.value = 1； 取值：var = document.getElementById(“id”）.value；</p>
+<p>12.parseFloat(string) 函数可解析一个字符串，并返回一个浮点数。</p>
+<p>13.内置对象</p>
+<p>JavaScript 中的所有事物都是对象，如:字符串、数值、数组、函数等，每个对象带有属性和方法。 使用对象前先定义，用new关键字定义对象  </p>
+<p>对象名 . 属性名（中间为点）   对象名.方法名()</p>
+<p>14.Date 日期对象  </p>
+<p>定义一个时间对象 :var date=new Date(); 初始值为当前日期  若想自定义值，可以var data = new Date(2012, 10, 1);</p>
+<p>Date对象中处理时间和日期的常用方法：</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img-blog.csdnimg.cn/20190112151926458.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTYwNzM5,size_16,color_FFFFFF,t_70"
+                      alt="img"
+                ></p>
+<p>15.get/setFullYear() 返回/设置年份，用四位数表示。  getMonth() 方法可返回表示月份的数字。返回值是 0（一月） 到 11（十二月） 之间的一个整数。故+1</p>
+<p>返回星期方法getDay() 返回星期，返回的是0-6的数字，0 表示星期天。如果要返回相对应“星期”，通过数组完成，</p>
+<p>var mydate=new Date();</p>
+<p>var weekday=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];</p>
+<p>document.write("今天是："+weekday[mydate.getDay()]);</p>
+<p>get/setTime() 返回/设置时间，单位毫秒数，计算从 1970 年 1 月 1 日零时到日期对象所指的日期的毫秒数。</p>
+<p>如果将目前日期对象的时间推迟1小时  对象名.setTime(对象名.getTime() + 60 * 60 * 1000);</p>
+<p>document.write("推迟一小时时间：" + mydate);</p>
+<p>16.charAt() 方法可返回指定位置的字符。字符串中第一个字符的下标是 0。 </p>
+<p>最后一个字符的下标为字符串长度减一（string.length-1）  </p>
+<p>如果参数 index 不在 0 与 string.length-1 之间，该方法将返回一个空字符串</p>
+<p>17.indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置。    </p>
+<p>字符串名称. indexOf(“要要检索的字符串检索的字符串”，从第几个位置开始查找)   </p>
+<p>字符串中的字符位置是从 0 开始的。如果要检索的字符串值没有出现，则该方法返回 -1。</p>
+<p>18.split() 方法将字符串分割为字符串数组，并返回此数组。</p>
+<p>字符串名称.split(separator,limit)  separator必选，从该参数指定的地方分割   </p>
+<p>Limit可选参数，返回的子串不会多于这个个数  </p>
+<p>如果把空字符串 ("") 用作 separator，那么 stringObject（字符串名称） 中的每个字符之间都会被分割。</p>
+<p>substring() 方法用于提取字符串中介于两个指定下标之间的字符。  stringObject.substring(startPos,stopPos)   startPos必选，开始位置  </p>
+<p>stopPos可选，结束位置，若无则一直到末尾   返回的内容是有前面 startPos位置的无后面的  </p>
+<p>如果参数 start 与 stop 相等，那么该方法返回的就是一个空串   如果 start 比 stop 大，那么该方法在提取子串之前会先交换这两个参数</p>
+<p>19.substr() 方法从字符串中提取从 startPos位置开始的指定数目的字符串。  stringObject.substr(startPos,length)   startPo起始位置包括在内，length可选，返回字符串的长度，若省略则一直到末尾</p>
+<p>20.Math对象，提供对数据的数学计算。Math 对象是一个固有的对象，无需创建它，直接把 Math 作为对象使用就可以调用其所有属性和方法。   Math.属性/方法</p>
+<p>21.ceil() 方法可对一个数进行向上取整。Math.ceil(x)  它返回的是大于或等于x，并且与x最接近的整数。  </p>
+<p>22.floor() 方法可对一个数进行向下取整。Math.floor(x)返回的是小于或等于x，并且与 x 最接近的整数。</p>
+<p>23.round() 方法可把一个数字四舍五入为最接近的整数。Math.round(x)   如果 x 与两侧整数同等接近，则结果接近 +∞方向的数字值 。(如 -5.5 将舍入为 -5; -5.52 将舍入为 -6),</p>
+<p>24.random() 方法可返回介于 0 ~ 1（大于或等于 0 但小于 1 )之间的一个随机数。Math.random();  获得0 ~ 10之间的随机数，(Math.random())*10</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img-blog.csdnimg.cn/20190112152223385.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTYwNzM5,size_16,color_FFFFFF,t_70"
+                      alt="img"
+                ></p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img-blog.csdnimg.cn/20190112152241125.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTYwNzM5,size_16,color_FFFFFF,t_70"
+                      alt="img"
+                ></p>
+<p>25.定义数组的时候，直接初始化数据：var myArray = [2, 8, 6];</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img-blog.csdnimg.cn/20190112152342862.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTYwNzM5,size_16,color_FFFFFF,t_70"
+                      alt="img"
+                ></p>
+<p>26.concat() 方法用于连接两个或多个数组。此方法返回一个新数组，不改变原来的数组。       数组名 arrayObject .concat(array1,array2,...,arrayN)   括号里面的是要连接的数组</p>
+<p>27.join()方法用于把数组中的所有元素放入一个字符串。元素是通过指定的分隔符进行分隔的。arrayObject.join(分隔符)   分隔符可选，若无默认逗号</p>
+<p>匹配一个字符串是否存在  若存在则打印出来不存在则输出null  str.match(“Hello”)</p>
+<p>替换字符串的内容 第一个是存在的  第二个是要替换后的 str.replace(“Hello”,”jikexueyuan”)</p>
+<p>28.reverse() 方法用于颠倒数组中元素的顺序。arrayObject.reverse()</p>
+<p>29.slice() 方法可从已有的数组中返回选定的元素。arrayObject.slice(start,end)  返回一个新的数组，包含从 start 到 end （不包括该元素）的子数组。  该方法并不会修改数组</p>
+<p>30.sort()方法使数组中的元素按照一定的顺序排列。arrayObject.sort(方法函数名)  字母从小到大   若想数字从小到大则：function sortNum(a,b) { return a - b; //升序，如降序，把“a - b”该成“b - a” }</p>
+<p>31.浏览器对象</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img-blog.csdnimg.cn/20190112152450830.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTYwNzM5,size_16,color_FFFFFF,t_70"
+                      alt="img"
+                ></p>
+<p>32.JavaScript 计时器  一次性计时器：仅在指定的延迟时间之后触发一次  间隔性触发计时器：每隔一定的时间间隔就触发一次。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img-blog.csdnimg.cn/20190112152531199.png"
+                      alt="img"
+                ></p>
+<p>33.每隔指定的时间执行代码  setInterval(代码,交互时间);  代码：要调用的函数或要执行的代码串。交互时间：周期性执行或调用表达式之间的时间间隔，以毫秒计（1s=1000ms）。</p>
+<p>34.取消计时器clearInterval()  clearInterval(返回的延迟名)  例如：var i=setInterval("clock()",100);  <input type="button" value="Stop" οnclick="clearInterval(i)" /></p>
+<p>35.计时器setTimeout()  setTimeout()计时器，在载入后延迟指定时间后,去执行一次表达式,仅执行一次。 setTimeout(代码,延迟时间);   </p>
+<p>36.取消计时器clearTimeout()  clearTimeout(返回的延迟名)  和上面的相似</p>
+<p>37.history对象记录了用户曾经浏览过的页面(URL)，并可以实现浏览器前进与后退相似导航的功能。  window.history.属性/方法   当前窗口的浏览历史总长度window.history.length;   </p>
+<p>加载 history 列表中的前一个链接地址URL  window.history.back();  back()相当于go(-1),   加载 history 列表中的下一个链接地址URL  window.history.forward();  forward()相当于go(1)</p>
+<p>38.go()方法，根据当前所处的页面，加载 history 列表中的某个具体的页面。   window.history.go(number);</p>
+<p>39.location用于获取或设置窗体的URL，并且可以用于解析URL。  location.属性/方法   </p>
+<p>如：获取当前显示文档的URL  window.location.href    assign() 方法可加载一个新的文档。location.assign(URL)</p>
+<p>40.Navigator 对象包含有关浏览器的信息，通常用于检测浏览器与操作系统的版本。  navigator.属性</p>
+<p>navigator.userAgent返回包括浏览器版本信息等的字符串</p>
+<p>41.screen对象用于获取用户的屏幕信息。window.screen.属性  </p>
+<p>屏幕分辨率的高和宽screen.height/width  window.screen 对象在编写时可以不使用 window 这个前缀。</p>
+<p>42.屏幕可用高和宽度 screen.availWidth/availHeight  span 是一个行内标记，一个内联的对象，前后是不会换行的  div是块元素，会换行</p>
+<p>\43. DOM对象，控制HTML元素</p>
+<p>文档对象模型DOM（Document Object Model）定义访问和处理HTML文档的标准方法。DOM 将HTML文档呈现为带有元素、属性和文本的树结构（节点树）。DOM操作:</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img-blog.csdnimg.cn/20190112152600759.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMTYwNzM5,size_16,color_FFFFFF,t_70"
+                      alt="img"
+                ></p>
+<p>44.getElementsByName()方法 通过元素的 name 属性查询元素document.getElementsByName(name) 返回带有指定名称的节点对象的集合。   </p>
+<p>注意： 因为文档中的 name 属性可能不唯一，所有 getElementsByName() 方法返回的是元素的数组，而不是一个元素。  </p>
+<p>和数组类似也有length属性，可以和访问数组一样的方法来访问，从0开始</p>
+<p>45.document.getElementsByTagName(Tagname)  返回带有指定标签名的节点对象的集合。   注意：Tagname是标签的名称，如p、a、img等标签名。和数组类似也有length属性，可以和访问数组一样的方法来访问，所以从0开始。</p>
+<p>46.三种获取节点的方法：通过ID/name/标签document.getElementById/getElementsByName/getElementsByName("ID/name/标签");</p>
+<p>47.区别三种获取节点的方法：ID 是一个人的身份证号码，是唯一的。所以通过getElementById获取的是指定的一个人。  </p>
+<p>Name 是他的名字，可以重复。所以通过getElementsByName获取名字相同的人集合。</p>
+<p>TagName可看似某类，getElementsByTagName获取相同类的人集合。如获取小孩这类人，getElementsByTagName("小孩")。  </p>
+<p>48.选中复选框document.getElementById("XX").checked = true;  取消选中的复选框false</p>
+<p>49.getAttribute()方法通过元素节点的属性名称获取属性的值。   elementNode.getAttribute(name)  </p>
+<p>elementNode：使用getElementById()、getElementsByTagName()等方法，获取到的元素节点。   </p>
+<p>name：要想查询的元素节点的属性名字</p>
+<p>50.setAttribute() 方法增加一个指定名称和值的新属性，或者把一个现有的属性设定为指定的值。 elementNode.setAttribute(name,value)</p>
+<p>51.节点属性。在文档对象模型 (DOM) 中，每个节点都是一个对象。DOM 节点有三个重要的属性（属性用点来调用 . ） ：  </p>
+<p> nodeName : 节点的名称   nodeValue ：节点的值  nodeType ：节点的类型    </p>
+<p>元素节点的 nodeValue 是 undefined 或 null  文本节点的 nodeValue 是文本本身  属性节点的 nodeValue 是属性值    </p>
+<p>Internet Explorer 会忽略节点之间生成的空白文本节点，而其它浏览器不会。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img-blog.csdnimg.cn/20190112152635344.png"
+                      alt="img"
+                ></p>
+<p>\52.  访问子节点elementNode.childNodes 访问选定元素节点下的所有子节点的列表，返回的值可以看作是一个数组</p>
+<p>53.访问子节点的第一和最后项  node.firstChild/lastChild。如果选定的节点没有子节点，则该属性返回 NULL。</p>
+<p>54.访问父节点 父节点只能有一个。  elementNode.parentNode  访问祖节点:elementNode.parentNode.parentNode</p>
+<p>55.访问兄弟节点   nodeObject.nextSibling/previousSibling  返回某个节点之后/前紧跟的节点</p>
+<p>56.插入节点。在指定节点的最后一个子节点列表之后添加一个新的子节点。 appendChild(newnode)  </p>
+<p>创建新元素节点：var newnode = document.createElement("li");  </p>
+<p>创建新节点内容：Var newtext=document.createTextNode("PHP");  或者newnode.innerHTML="PHP";  </p>
+<p>节点:document.getElementById("xx")</p>
+<p>语法： 节点.appendChild(newtext/newnode); </p>
+<p>57.insertBefore() 方法可在已有的子节点前插入一个新的子节点。 insertBefore(newnode,node);  newnode: 要插入的新节点。 node: 指定此节点前插入节点。</p>
+<p>58.removeChild() 方法从子节点列表中删除某个节点。  节点列表.removeChild(具体某个节点)</p>
+<p>59.replaceChild 实现子节点(对象)的替换。返回被替换对象的引用。 </p>
+<p>60.获得浏览器窗口的尺寸（浏览器的视口，不包括工具栏和滚动条）的方法:</p>
+<p>var w=document.documentElement.clientWidth||document.body.clientWidth;</p>
+<p>var h=document.documentElement.clientHeight||document.body.clientHeight;</p>
+<p>把client换成scroll就是获取网页内容高度和宽度。   </p>
+<p>把client换成offse就是获取网页内容高度和宽度(包括滚动条等边线，会随窗口的显示大小改变)。</p>
+
+            </div>
+
+            
+                <div class="post-copyright-info">
+                    <div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> js进阶知识点</li>
+        <li><strong>Author:</strong> 清风煮酒</li>
+        <li><strong>Created at:</strong> 2023-08-23 10:30:21</li>
+        
+            <li>
+                <strong>Updated at:</strong> 2023-08-23 10:30:21
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://redefine.ohevan.com/2023/08/23/js知识点/
+        </li>
+        <li>
+            <strong>License:</strong> This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>.
+        </li>
+    </ul>
+</div>
+
+                </div>
+            
+
+            
+                <ul class="post-tags-box">
+                    
+                        <li class="tag-item">
+                            <a href="/myblog/tags/JS/">#JS</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                        <div class="article-prev">
+                            <a class="prev"
+                            rel="prev"
+                            href="/myblog/2023/08/23/Spring%E6%8A%80%E6%9C%AF/"
+                            >
+                                <span class="left arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-left"></i>
+                                </span>
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">Spring技术</span>
+                                    <span class="post-nav-item">Prev posts</span>
+                                </span>
+                            </a>
+                        </div>
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                            rel="next"
+                            href="/myblog/2023/08/23/Docker/"
+                            >
+                                <span class="title flex-center">
+                                    <span class="post-nav-title-item">Docker</span>
+                                    <span class="post-nav-item">Next posts</span>
+                                </span>
+                                <span class="right arrow-icon flex-center">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+
+            
+                <div class="comment-container">
+                    <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fa-solid fa-comments"></i>&nbsp;Comments
+    </div>
+    
+
+        
+            
+ 
+    <div id="waline"></div>
+    <script type="module"  data-pjax>
+        import { init } from 'https://evan.beee.top/js/waline.mjs';
+
+        function loadWaline() {
+            init({
+                el: '#waline',
+                serverURL: 'https://example.example.com',
+                lang: 'zh-CN',
+                dark: 'body[class~="dark-mode"]',
+                requiredMeta: ['nick','mail'], // cannot customize by theme config, change it yourself
+            });
+        }
+
+        if ('true') {
+            const loadWalineTimeout = setTimeout(() => {
+                loadWaline();
+                clearTimeout(loadWalineTimeout);
+            }, 1000);
+        } else {
+            window.addEventListener('DOMContentLoaded', loadWaline);
+        }
+        
+    </script>
+
+
+
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        
+            <div class="toc-content-container">
+                <div class="post-toc-wrap">
+    <div class="post-toc">
+        <div class="toc-title">On this page</div>
+        <div class="page-title">js进阶知识点</div>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#js%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="nav-text">js进阶知识点</span></a></li></ol>
+
+    </div>
+</div>
+            </div>
+        
+    </div>
+</div>
+
+
+                
+
+            </div>
+            
+            
+
+        </div>
+
+        <div class="main-content-footer">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info">
+            &copy;
+            
+              <span>2022</span>
+              -
+            
+            2023&nbsp;&nbsp;<i class="fa-solid fa-heart fa-beat" style="--fa-animation-duration: 0.5s; color: #f54545"></i>&nbsp;&nbsp;<a href="/">清风煮酒</a>
+        </div>
+        
+            <script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv" class="busuanzi_container_site_uv">
+                        VISITOR COUNT&nbsp;<span id="busuanzi_value_site_uv" class="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="busuanzi_container_site_pv">
+                        TOTAL PAGE VIEWS&nbsp;<span id="busuanzi_value_site_pv" class="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            <span class="powered-by-container">POWERED BY <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" href="https://hexo.io">Hexo</a></span>
+                <br>
+            <span class="theme-version-container">THEME&nbsp;<a class="theme-version" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.1.2</a>
+        </div>
+        
+        
+        
+            <div id="start_div" style="display:none">
+                2022/8/17 11:45:14
+            </div>
+            <div>
+                Blog up for <span class="odometer" id="runtime_days" ></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+        
+            <script async data-pjax>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+        
+    </div>  
+</footer>
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="article-tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="right-bottom-tools page-aside-toggle">
+                <i class="fa-regular fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fa-regular fa-comments"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-side-tools-container">
+        <div class="side-tools-container">
+    <ul class="hidden-tools-list">
+        <li class="right-bottom-tools tool-font-adjust-plus flex-center">
+            <i class="fa-regular fa-magnifying-glass-plus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-font-adjust-minus flex-center">
+            <i class="fa-regular fa-magnifying-glass-minus"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-expand-width flex-center">
+            <i class="fa-regular fa-expand"></i>
+        </li>
+
+        <li class="right-bottom-tools tool-dark-light-toggle flex-center">
+            <i class="fa-regular fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+
+        <li class="right-bottom-tools tool-scroll-to-bottom flex-center">
+            <i class="fa-regular fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="visible-tools-list">
+        <li class="right-bottom-tools toggle-tools-list flex-center">
+            <i class="fa-regular fa-cog fa-spin"></i>
+        </li>
+        
+            <li class="right-bottom-tools tool-scroll-to-top flex-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+                <span class="percent"></span>
+            </li>
+        
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+
+</main>
+
+
+
+
+<script src="/myblog/js/utils.js"></script>
+
+<script src="/myblog/js/main.js"></script>
+
+<script src="/myblog/js/layouts/navbarShrink.js"></script>
+
+<script src="/myblog/js/tools/scrollTopBottom.js"></script>
+
+<script src="/myblog/js/tools/lightDarkSwitch.js"></script>
+
+
+
+
+
+    
+<script src="/myblog/js/tools/codeBlock.js"></script>
+
+
+
+
+    
+<script src="/myblog/js/layouts/lazyload.js"></script>
+
+
+
+
+    
+<script src="/myblog/js/tools/runtime.js"></script>
+
+    
+<script src="/myblog/js/layouts/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/myblog/assets/odometer-theme-minimal.css">
+
+
+
+
+  
+<script src="/myblog/js/libs/Typed.min.js"></script>
+
+  
+<script src="/myblog/js/plugins/typed.js"></script>
+
+
+
+
+
+
+
+<div class="post-scripts pjax">
+    
+        
+<script src="/myblog/js/tools/tocToggle.js"></script>
+
+<script src="/myblog/js/libs/anime.min.js"></script>
+
+<script src="/myblog/js/layouts/toc.js"></script>
+
+<script src="/myblog/js/plugins/tabs.js"></script>
+
+    
+</div>
+
+
+    
+<script src="/myblog/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+            // scrollTo: true,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            Global.utils.pjaxProgressBarStart();
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            Global.utils.pjaxProgressBarEnd();
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'));
+            Global.refresh();
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>
